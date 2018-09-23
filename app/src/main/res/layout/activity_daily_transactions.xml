@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:layout_height="match_parent"
+    tools:context="com.app.nevada.nevadaapp.DailyTransactions">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tranDateToFilter"
+            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:text="الى تاريخ"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#802C2A"
+            android:onClick="callDate"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/txtToDate"
+            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:text="الى تاريخ "
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tranDateFromFilter"
+            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:text="من تاريخ"
+            android:gravity="center"
+            android:textColor="#802C2A"
+            android:layout_gravity="center"
+            android:onClick="callDate"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/txtFromDate"
+            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:text="من تاريخ "
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:id="@+id/rbLayout"
+        android:orientation="vertical" >
+        <RadioGroup
+            android:id="@+id/rbgType"
+            android:layout_width="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content" >
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/txtAllOrders"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:text="الكل"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="#802C2A"
+                    android:onClick="callDate"
+                    android:textStyle="bold"/>
+                <RadioButton
+                    android:id="@+id/rbAllOrders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="0"
+                    android:layout_gravity="right"
+                    android:checked="true"
+                    android:onClick="UpdateOnCheck"
+                    android:text="" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/txtOnRoad"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:text="الردود تحت التفيذ"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="#802C2A"
+                    android:onClick="callDate"
+                    android:textStyle="bold"/>
+                <RadioButton
+                    android:id="@+id/rbOnRoad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="1"
+                    android:layout_gravity="right"
+                    android:onClick="UpdateOnCheck"
+                    android:text="" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/txtApprovedDriver"
+                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:text="الردود المؤكدة من السائق فقط"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="#802C2A"
+                    android:textStyle="bold"/>
+                <RadioButton
+                    android:id="@+id/rbApprovedDriver"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_height="wrap_content"
+                    android:tag="2"
+                    android:onClick="UpdateOnCheck"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="right"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:id="@+id/imgCurrentOrderSearch"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:src="@drawable/current_search" />
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="بحث"
+                    android:id="@+id/btnRepSearch"
+                    android:background="@drawable/corners_border_small"
+                    android:textSize="15sp"
+                    android:layout_gravity="left"
+                    android:textStyle="bold"
+                    android:onClick="SearchRepOrders"
+                    android:enabled="true" />
+                <TextView
+                    android:id="@+id/txtApprovedBoth"
+                    android:layout_height="wrap_content"
+                    android:layout_width="190dp"
+                    android:text="الردود المؤكدة"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:textColor="#802C2A"
+                    android:textStyle="bold"/>
+                <RadioButton
+                    android:id="@+id/rbApprovedBoth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="UpdateOnCheck"
+                    android:tag="3"
+                    android:layout_gravity="right"
+                    android:text="" />
+            </LinearLayout>
+
+
+
+
+        </RadioGroup>
+
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/headerLayout"
+        android:layout_below="@+id/rbLayout"
+        android:background="@drawable/border_set">
+        <TextView
+            android:id="@+id/CustApp"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="العميل"
+            android:textSize="10sp"
+            android:gravity="right"
+            android:layout_gravity="center"
+            android:layout_weight="0.4"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tranDebt"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="السائق"
+            android:gravity="right"
+            android:layout_gravity="center"
+            android:textSize="10sp"
+            android:layout_weight="0.4"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tranCredit"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="تحت التنفيذ"
+            android:gravity="right"
+            android:layout_gravity="center"
+            android:layout_weight="0.4"
+            android:textColor="#ffffff"
+            android:textSize="10sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tranDate"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="اسم العميل"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tranType"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="رقم الطلبية"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lvSearchOrdersResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textColor="#33b5e5"
+        android:textStyle="bold"
+        android:layout_below="@+id/headerLayout"
+        />
+
+</LinearLayout>

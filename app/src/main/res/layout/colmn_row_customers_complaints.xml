@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/btnOpenDetails"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:src="@drawable/ratinginfo"
+        android:onClick="OpenDetails"
+        android:scaleType="centerInside" />
+    <TextView
+        android:id="@+id/txtRepRate"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="3/5"
+        android:gravity="right"
+        android:layout_weight="0.5" />
+    <TextView
+        android:id="@+id/txtRepCustName"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:text="15-10-2016"
+        android:gravity="center"
+        android:layout_weight="2" />
+    <TextView
+        android:id="@+id/txtRepOrderNo"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="75485452564"
+        android:gravity="center"
+        android:textStyle="bold" />
+</LinearLayout>

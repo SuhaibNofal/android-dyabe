@@ -1,0 +1,179 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:background="@drawable/side_nav_bar"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="6"
+    android:layout_below="@+id/toolbar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical"
+        android:weightSum="4"
+        android:layout_marginTop="20dp"
+        android:id="@+id/impMainInfo">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1.5"
+            android:weightSum="4"
+            android:gravity="right"
+            android:id="@+id/LayoutName">
+            <Spinner
+                android:id="@+id/spImpLoc"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="3.5"
+                android:textColor="#f4383e"
+                android:textStyle="normal|bold"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/gradient_spinner"
+                android:gravity="right"
+                android:spinnerMode="dropdown"/>
+            <TextView
+                android:id="@+id/txtImpLocName"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/txtOrderDate"
+                android:layout_marginRight="10dp"
+                android:text="الموقع"
+                android:gravity="center"
+                android:textColor="#f4383e"
+                android:textSize="15sp"
+                android:textStyle="normal|bold"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:orientation="horizontal"
+            android:layout_below="@+id/LayoutName"
+            android:weightSum="4"
+            android:gravity="right"
+            android:id="@+id/LayoutDesc">
+            <TextView
+                android:id="@+id/txtDesc"
+                android:layout_width="0dp"
+                android:layout_weight="3.5"
+                android:background="@drawable/border_rounded"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/txtOrderDate"
+                android:layout_marginRight="10dp"
+                android:text=""
+                android:gravity="right"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="normal|bold"
+                />
+            <TextView
+                android:id="@+id/lblDesc"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/txtOrderDate"
+                android:layout_marginRight="10dp"
+                android:text="الوصف"
+                android:gravity="center"
+                android:textColor="#f4383e"
+                android:textSize="15sp"
+                android:textStyle="normal|bold"
+                />
+        </LinearLayout>
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="عرض الطريق"
+            android:id="@+id/btnGoToLocation"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/LayoutDesc"
+            android:background="@drawable/corners_border_small"
+            android:textSize="15sp"
+            android:onClick="ShowCurrentLocationInfo"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:enabled="true" />
+    </LinearLayout>
+    <RelativeLayout
+            android:id="@+id/impMap_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_below="@+id/impMainInfo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            tools:context=".ContactsActivity">
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="pi.com.ndtc.MapsActivity">
+
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/btnSatView"
+                    android:onClick="SetSatView"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="180dp"
+                    android:background="@drawable/satview"
+                    android:enabled="true" />
+
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/btnStreetView"
+                    android:onClick="SetStreetView"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="235dp"
+                    android:background="@drawable/streetview"
+                    android:layout_below="@+id/btnSatView"
+                    android:enabled="true" />
+
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/btnTrafficView"
+                    android:onClick="SetTrafficView"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="290dp"
+                    android:background="@drawable/trafficview"
+                    android:layout_below="@+id/btnSatView"
+                    android:enabled="true" />
+
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/btnRefreshLocation"
+                    android:onClick="RefreshLocation"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="125dp"
+                    android:background="@drawable/refreshmap"
+                    android:enabled="true" />
+            </fragment>
+
+        </RelativeLayout>
+</LinearLayout>

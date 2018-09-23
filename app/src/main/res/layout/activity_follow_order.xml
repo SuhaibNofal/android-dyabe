@@ -1,0 +1,231 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:background="@drawable/side_nav_bar"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/toolbar">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/lblOrderNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:text="رقم وتاريخ الطلب"
+            android:textColor="#2a6496"
+            android:textSize="15sp"
+            android:textStyle="normal|bold"
+            />
+        <TextView
+            android:id="@+id/txtOrderNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/lblOrderNo"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="120dp"
+            android:textColor="#f4383e"
+            android:textSize="15sp"
+            android:textStyle="normal|bold"
+            android:text=""
+            />
+        <TextView
+            android:id="@+id/txtSeperator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_toLeftOf="@+id/txtOrderNo"
+            android:layout_marginRight="10dp"
+            android:textColor="#f4383e"
+            android:textSize="15sp"
+            android:visibility="gone"
+            android:textStyle="normal|bold"
+            android:text="  -  "
+            />
+        <TextView
+            android:id="@+id/txtOrderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_toLeftOf="@+id/txtSeperator"
+            android:text=""
+            android:textColor="#f4383e"
+            android:textSize="15sp"
+            android:textStyle="normal|bold"
+            />
+
+        <TextView
+            android:id="@+id/lblDriverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/txtOrderDate"
+            android:layout_marginRight="10dp"
+            android:textColor="#2a6496"
+            android:textSize="15sp"
+            android:textStyle="normal|bold"
+            android:text="اسم السائق" />
+
+        <TextView
+            android:id="@+id/txtDriverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/txtOrderDate"
+            android:layout_marginRight="80dp"
+            android:text=""
+            android:textColor="#f4383e"
+            android:textSize="15sp"
+            android:textStyle="normal|bold"
+            />
+
+        <RelativeLayout
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/lblDriverName"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            tools:context=".ContactsActivity">
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="pi.com.ndtc.MapsActivity" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lblSelectOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/map_container"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:text="الطلبيات الفعالة الحالية : "
+            android:textColor="#2a6496"
+            android:textSize="15sp"
+            android:textStyle="normal|bold"
+            />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/lblSelectOrder"
+            android:id="@+id/lstOrdersHeader"
+            android:background="@drawable/border_set">
+            <TextView
+                android:id="@+id/txtOrderHeaderDate"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="محطة التفريغ"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtAramcoQty"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="الكمية"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtAramcoItem"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="المادة"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="#ffffff"
+                android:layout_weight="2"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtAramcoNo"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="رقم الطلبية"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <ListView
+            android:id="@+id/lvOrders"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:textColor="#33b5e5"
+            android:choiceMode="singleChoice"
+            android:layout_below="@+id/lstOrdersHeader"
+            android:listSelector="@drawable/border_set"
+            android:background="#181abc9c"
+            android:textStyle="bold"
+            android:layout_marginTop="3dp"
+            >
+        </ListView>
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="الاتصال بالسائق"
+            android:id="@+id/btnCallDriver"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/corners_border_small"
+            android:layout_below="@+id/lvOrders"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:onClick="callDriver"
+            android:enabled="true" />
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="الاتصال بالشركة"
+            android:id="@+id/btnCallCompany"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="130dp"
+            android:background="@drawable/corners_border_small"
+            android:layout_below="@+id/lvOrders"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:onClick="callCompany"
+            android:enabled="true" />
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="تحديث"
+            android:id="@+id/btnRefreshLocation"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/corners_border_small"
+            android:layout_below="@+id/lvOrders"
+            android:textSize="15sp"
+            android:onClick="RefreshMap"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:enabled="true" />
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name"><b>Nevada ERP Systems </b></string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="contactStr">
+        Al-Riyadh- Olaya - street no. 28 - Building no.9 \n\n
+        Contact Number:\n
++966  (11)  465 457 9\n
++966  (11)  466 704 3\n
++966  (55)  239 968 8\n
+E-mail:
+info@awaelksa.com\n</string>
+    <string name="supportStr">
+        <font color='red'><b>Nevada</b></font> commited to provied thier customers a full technical support for all Our products, In order to enhance the
+        value of customer interactions,increase customers satisfaction and lower churn for our clients. You can request a support anytyme !</string>
+
+    <string name="accInfo">• Multi-currency Transactions and Reporting \n
+        • Multi-Cost Center. \n
+    • Accounting Auto Numbering. \n
+    • Accounts Receivable and Accounts Payable \n
+        • Budget Management Services \n
+        • Cash Flow Management. \n
+• Cheques Flow Management. \n
+• Notes Management. \n
+• Financial Statements. \n
+• Customer Relation Management. \n
+        • Bill Payment.
+    </string>
+    <string name="InvInfo">
+        • Integrated With Accounting. \n
+        • Periodic and Continues Stocktaking. \n
+        • Multi-Warehouse. \n
+        • Stock Transfer over the Warehouses. \n
+        • Multi-level Categories. \n
+        • Multiple Units of Measure. \n
+        • Barcode Printing. \n
+        • Customer Pricing. \n
+        • Batches Item and Batch Tracing. \n
+        • Receipts and Issues destinations. \n
+        • Widely Reporting System. \n
+    </string>
+    <string name="PurInfo">
+        • Integrated With Accounting. \n
+        • Periodic and Continues Stocktaking. \n
+• Multi-Warehouses and Multi-Units. \n
+• External and Internal Purchase orders. \n
+• Demand Based Inventory Replenishment. \n
+• Automatic stock Fulfillment. \n
+• Batches Item and Batch Tracing. \n
+• Landed Cost. \n
+• Integrated Receipts and Receipts Return. \n
+• Widely Reporting System. \n
+    </string>
+    <string name="SaleInfo">
+       • Integrated With Accounting. \n
+•Periodic and Continues Stocktaking. \n
+• Multi-Warehouses and Multi-Units. \n
+• Entering the sales price included the sales tax. \n
+• Barcode Printing. \n
+• Multi-sale Prices. \n
+• Multi-Discounts. \n
+• Batches Item and Batch Tracing. \n
+• Integrated Sales and Sales Return. \n
+• Widely Reporting System. \n
+• Sales Analysis Reports. \n
+• Reports of effectiveness comparisons. \n
+    </string>
+    <string name="title_activity_login">Log in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Account Name</string>
+    <string name="prompt_password">Password </string>
+    <string name="action_sign_in">Log In</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="title_activity_account_sub">AccountSubActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_customer_info">CustomerInfo</string>
+    <string name="title_activity_last_trans_action">LastTransActionActivity</string>
+
+    <string name="title_activity_new_order">NewOrder</string>
+    <string name="title_activity_follow_order">Map</string>
+    <string name="title_activity_current_customer_location">Map</string>
+    <string name="title_activity_customer_location">Map</string>
+    <string name="title_activity_test_layout">TestLayoutActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_important_locations">Map</string>
+</resources>

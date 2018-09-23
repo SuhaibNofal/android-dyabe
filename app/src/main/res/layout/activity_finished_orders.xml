@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/side_nav_bar"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:fitsSystemWindows="true"
+    tools:context="com.app.nevada.nevadaapp.FinishedOrders">
+    <TextView
+        android:id="@+id/txtConfirmOrdersTop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:text=" الرجاء عدم تأكيد الطلبيات الا في حالة وصول الطلبية كاملة والتأكد منها وذلك لإغلاق الطلبية "
+        android:textColor="#ff0004"
+        android:textSize="15sp"
+        android:textStyle="normal|bold"
+        android:layout_marginRight="20dp"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/txtConfirmOrders"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtConfirmOrdersTop"
+        android:layout_marginTop="10dp"
+        android:text="الرجاء تأكيد وصول الطلبيات التالية"
+        android:textColor="#2a6496"
+        android:textSize="15sp"
+        android:textStyle="normal|bold"
+        android:layout_marginRight="20dp"
+        android:gravity="right" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/txtConfirmOrders"
+        android:id="@+id/lvOrdersToConfirmHeaders"
+        android:background="@drawable/border_set">
+        <TextView
+            android:id="@+id/headerConfirmBtn"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="تأكيد"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/headerQty"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="الكمية"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/headerItemName"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="المادة"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:layout_weight="2"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/headerOrderNo"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:text="رقم الطلبية"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtNoOrders"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:text="لا يوجد طلبيات للتأكيد"
+        android:textColor="#2a6496"
+        android:visibility="gone"
+        android:textSize="40sp"
+        android:textStyle="normal|bold"
+        android:textAlignment="center" />
+
+    <ListView
+        android:id="@+id/lvOrdersToConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#33b5e5"
+        android:choiceMode="singleChoice"
+        android:listSelector="@drawable/border_set"
+        android:layout_below="@+id/lvOrdersToConfirmHeaders"
+        android:background="#181abc9c"
+        android:textStyle="bold"
+        android:layout_above="@+id/btnConfirmAll"
+        >
+    </ListView>
+    <Button style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="تأكيد الكل"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnConfirmAll"
+        android:background="@drawable/border_set"
+        android:onClick="ConfirmAll"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:enabled="true" />
+
+</RelativeLayout>
+

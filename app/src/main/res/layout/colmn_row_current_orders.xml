@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:text="الموقع"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btnCusLocation"
+        android:onClick="goToCustomerDirections"
+        android:background="@drawable/corners_border"
+        android:enabled="true"
+        android:textSize="18sp"
+        android:layout_margin="5dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/lblCusName"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:text="ينزين 95"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1" />
+    <TextView
+        android:id="@+id/lblCurrentOrderNo"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:text="7228356817"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:textStyle="bold" />
+</LinearLayout>

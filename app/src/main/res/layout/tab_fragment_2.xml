@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/tab2_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/tab2_InfoLabelsLayout"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            >
+            <TextView
+                android:id="@+id/tab2_lblAccMax"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="سقف الحساب"
+                android:textColor="#2a6496"
+                android:textSize="20sp"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="20dp"
+                android:gravity="right" />
+            <TextView
+                android:id="@+id/tab2_lblChkMax"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="سقف الشيكات"
+                android:textColor="#2a6496"
+                android:textSize="20sp"
+                android:layout_below="@+id/tab2_lblAccMax"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="20dp"
+                android:gravity="right" />
+
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/tab2_InfodataLayout"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            >
+            <EditText
+                android:id="@+id/tab2_lblAccMaxData"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2a6496"
+                android:textSize="20sp"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="5dp"
+                android:text="000000"
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:gravity="right" />
+            <EditText
+                android:id="@+id/tab2_lblChkMaxData"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2a6496"
+                android:textSize="20sp"
+                android:layout_below="@+id/tab2_lblAccMaxData"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="5dp"
+                android:text="000000"
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:gravity="right" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <CheckBox android:id="@+id/chkAllow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="يسمح للعميل بتجاوز السقف"
+        android:layout_below="@+id/tab2_main_layout"
+        android:layout_alignParentRight="true"
+        android:layoutDirection="rtl"
+        android:layout_marginTop="20dp"
+        android:textColor="#2a6496"
+        android:textSize="20sp"
+        android:textStyle="normal|bold" />
+    <Button style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="    تعديل العميل    "
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:id="@+id/btnSendQuotation"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:onClick="updateUser"
+        android:layout_margin="10dp"
+        android:enabled="true" />
+</RelativeLayout>
