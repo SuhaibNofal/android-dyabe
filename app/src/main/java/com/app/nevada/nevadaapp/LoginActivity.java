@@ -21,15 +21,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -76,25 +80,123 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String NAMESPACE = "http://37.224.24.195";
     private static final String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
     final String SOAP_ACTION = "http://37.224.24.195/login";
-    private  String accName ="";
-    private  String accNo  ="";
-    private  String accCity  ="";
-    private  String accDate  ="";
-    private  String accStartBalance ="" ;
-    private  String accEndBalance  ="";
-    private  String isAdmin ="0";
+    private String accName = "";
+    private String accNo = "";
+    private String accCity = "";
+    private String accDate = "";
+    private String accStartBalance = "";
+    private String accEndBalance = "";
+    private String isAdmin = "0";
+    private String CustId = "0";
+
+    String languageToLoad = "en";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+       // String languageToLoad  = "EN-US";
+
 
         setContentView(R.layout.activity_login);
+        final Spinner spinnerLanguge = (Spinner) findViewById(R.id.spinner_language);
+
+        List<String> spinnerArray = new ArrayList<String>();
+        spinnerArray.add("Select Language(English)");
+        spinnerArray.add("English");
+        spinnerArray.add("العربية");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, spinnerArray);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerLanguge.setAdapter(adapter);
+
+        spinnerLanguge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerLanguge.setSelection(position);
+                if (position == 0)
+                {
+
+                }else if (position ==1){
+                    ChangeLanguge(1);
+                }else if (position == 2){
+                    ChangeLanguge(2);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spinnerLanguge.setSelection(0);
+
+            }
+        });
+        try {
+            Intent intent = getIntent();
+            String lang = intent.getStringExtra("button");
+            if (lang.equals("en")) {
+
+                languageToLoad = "en";
+                spinnerArray.remove(0);
+                spinnerArray.add(0,"English");
+                spinnerLanguge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        spinnerLanguge.setSelection(position);
+                        if (position == 0)
+                        {
+
+                        }else if (position ==1){
+                            ChangeLanguge(1);
+                        }else if (position == 2){
+                            ChangeLanguge(2);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        spinnerLanguge.setSelection(0);
+
+                    }
+                });
+            }else{
+                languageToLoad ="ar";
+                spinnerArray.remove(0);
+                spinnerArray.add(0,"العربية");
+                spinnerLanguge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        spinnerLanguge.setSelection(position);
+                        if (position == 0)
+                        {
+
+                        }else if (position ==1){
+                            ChangeLanguge(1);
+                        }else if (position == 2){
+                            ChangeLanguge(2);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        spinnerLanguge.setSelection(0);
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            //languageToLoad = "en";
+            Locale locale = Locale.getDefault();
+
+            String v =String.valueOf(locale);
+            if (v.contains("en")){
+                languageToLoad = "en";
+            }else{
+                languageToLoad = "ar";
+            }
+            //Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         //populateAutoComplete();
@@ -118,8 +220,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     private void populateAutoComplete() {
@@ -215,7 +321,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
@@ -300,6 +405,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }
 
+    /*public void english(View view) {
+
+
+    }
+
+    public void arabic(View view) {
+        languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+        intent.putExtra("button", languageToLoad);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }*/
+
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -344,24 +468,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 androidHttpTransport.call(SOAP_ACTION, envelope);
                 Object result = (Object) envelope.getResponse();
-                SoapObject envResult = (SoapObject)envelope.bodyIn;
+                SoapObject envResult = (SoapObject) envelope.bodyIn;
                 SoapObject root = (SoapObject) envResult.getProperty(0);
                 int count = root.getPropertyCount();
 
-                if (count == 0)
-                {
+                if (count == 0) {
                     return false;
                 }
-                if (root.getProperty(0).toString().equals("Driver")){
+                if (root.getProperty(0).toString().equals("Driver")) {
                     isAdmin = "2";
                     accName = root.getProperty(3).toString();
                     accNo = root.getProperty(2).toString(); // EmpNo From HR
-                    accCity  = root.getProperty(4).toString(); // TrackNo
+                    accCity = root.getProperty(4).toString(); // TrackNo
                     accStartBalance = root.getProperty(1).toString(); // Driver No From TMS
                     return true;
                 }
-                if (root.getProperty(0).toString().equals("Admin"))
-                {
+                if (root.getProperty(0).toString().equals("Admin")) {
                     isAdmin = "1";
                     return true;
                 }
@@ -371,7 +493,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String AccDate = root.getProperty(3).toString();
                 String AccStartBalance = root.getProperty(4).toString();
                 String AccEndBalance = root.getProperty(5).toString();
-                if(AccName == "")
+                String CuistId = root.getProperty(6).toString();
+                if (AccName == "")
                     return false;
                 else {
                     accName = AccName;
@@ -381,6 +504,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     accStartBalance = AccStartBalance;
                     accEndBalance = AccEndBalance;
                     isAdmin = "0";
+                    CustId = CuistId;
                     return true;
                 }
 
@@ -406,13 +530,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
                 Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                myIntent.putExtra("accountName",accName);
-                myIntent.putExtra("accountNo",accNo);
-                myIntent.putExtra("accCity",accCity);
-                myIntent.putExtra("accDate",accDate);
-                myIntent.putExtra("accStartBalance",accStartBalance);
-                myIntent.putExtra("accEndBalance",accEndBalance);
-                myIntent.putExtra("isAdmin",isAdmin);
+                myIntent.putExtra("accountName", accName);
+                myIntent.putExtra("accountNo", accNo);
+                myIntent.putExtra("accCity", accCity);
+                myIntent.putExtra("accDate", accDate);
+                myIntent.putExtra("accStartBalance", accStartBalance);
+                myIntent.putExtra("accEndBalance", accEndBalance);
+                myIntent.putExtra("isAdmin", isAdmin);
+                myIntent.putExtra("customerID", CustId);
+                myIntent.putExtra("lang", languageToLoad);
                 LoginActivity.this.startActivity(myIntent);
                 finish();
             } else {
@@ -427,5 +553,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-}
+    public void ChangeLanguge(int id){
+
+        if(id ==1){
+        languageToLoad = "en";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+
+        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+        intent.putExtra("button", languageToLoad);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            startActivity(intent);
+        }
+        else{
+            languageToLoad = "ar";
+            Locale locale = new Locale(languageToLoad);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+
+            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+            intent.putExtra("button", languageToLoad);
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Toast.makeText(this,"سيتم تفعيل اللغة العربية ",Toast.LENGTH_SHORT).show();
+            startActivity(intent);}
+        }
+        public void setLanguage(String lang){
+
+            Locale locale = new Locale(lang);
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+
+        }
+    }
+
 

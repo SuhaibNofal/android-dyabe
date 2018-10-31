@@ -1,11 +1,14 @@
 package com.app.nevada.nevadaapp;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,9 +38,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.appindexing.Thing;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -53,7 +60,10 @@ import java.net.SocketTimeoutException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+
+import okhttp3.internal.framed.Variant;
 
 import static com.app.nevada.nevadaapp.Constants.AR_FIRST_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.AR_SECOND_COLUMN;
@@ -75,7 +85,7 @@ public class MainActivity extends AppCompatActivity
     private static final String NAMESPACE = "http://37.224.24.195";
     private static final String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
     final String SOAP_ACTION = "http://37.224.24.195/getAllCustomer";
-    private ArrayList<HashMap<String, String>> list;
+    public ArrayList<HashMap<String, String>> list;
     SoapObject responseObject;
     private String[] reponseList;
     private String endBalance = "";
@@ -84,19 +94,40 @@ public class MainActivity extends AppCompatActivity
     private String varCustName = "";
     private String VarIsAdmin = "";
     private String varFilled = "0";
+    String VarStatus = "0";
+    String VrStatusPlus = "0";
+    public String VarOrderNumber = "0";
     private int VarOrdersToConfirm = 0;
+    String Vardelevery_not_done = "0";
+    String VarIsDone ="";
+    String ordernumber = "";
+    private String driverid = "";
+    static boolean status = true;
+    MyReceiverStatus myReceiverStatus;
+    MyReceiverCustomer myReceiverStatusCustomer;
+    String VarCustomerId = "";
+    String languges;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
+       /* String languageToLoad  = "EN-US";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
-
+                getBaseContext().getResources().getDisplayMetrics());*/
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        languges  = intent.getStringExtra("lang");
+        if(languges.equals("en")){
+            Locale locale =new Locale(languges);
+            forceLocale(this,locale);
+        }else{
+            Locale locale =new Locale(languges);
+            forceLocale(this,locale);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -124,7 +155,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        Intent intent = getIntent();
+
         String isAdmin =intent.getStringExtra("isAdmin");
         VarIsAdmin = isAdmin;
         View layout;
@@ -294,12 +325,17 @@ public class MainActivity extends AppCompatActivity
             tvDriverNo.setText(intent.getStringExtra("accountNo"));
             tvCarNo.setText(intent.getStringExtra("accCity"));//Truck No
             varCustNo = intent.getStringExtra("accStartBalance"); // Driver TMS No
+            status = false;
+            myReceiverStatus = new MyReceiverStatus();
+
+            myReceiverStatus.status =status;
             new DriverOrdersTask().execute();
         }else
         {
             String accountName = intent.getStringExtra("accountName");
             String accountNo = intent.getStringExtra("accountNo");
             varCustAcctNo = intent.getStringExtra("accountNo");
+            VarCustomerId = intent.getStringExtra("customerID");
             varCustName = accountName;
             TextView txtName = (TextView)findViewById(R.id.userAccName);
             TextView txtNo = (TextView)findViewById(R.id.userAccNo);
@@ -323,7 +359,11 @@ public class MainActivity extends AppCompatActivity
             }
             //txtEndB.setText(intent.getStringExtra("accEndBalance"));
             endBalance = intent.getStringExtra("accEndBalance");
+            myReceiverStatusCustomer =new MyReceiverCustomer();
+            //myReceiverStatusCustomer.CancelAlarm1(getApplicationContext());
+            myReceiverStatusCustomer.setAlarm1(getApplicationContext(),VarCustomerId);
 
+            //new getCustOrder().execute();
 
 
         }
@@ -334,6 +374,22 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+    }
+
+    @Override
+    protected void onPause() {
+        if(VarIsAdmin.equals("2")){
+        status = true;
+        myReceiverStatus.status = status;}
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(VarIsAdmin.equals("2")){
+        status = true;
+        myReceiverStatus.status=status;}
+        super.onDestroy();
     }
 
     @Override
@@ -464,6 +520,7 @@ public class MainActivity extends AppCompatActivity
            myIntent.putExtra("ForAll","T");
            myIntent.putExtra("ClientName","N");
            myIntent.putExtra("acctNo","N");
+           myIntent.putExtra("languges",languges);
            MainActivity.this.startActivity(myIntent);
        }else if (id == R.id.RatingReport) {
            DrawerLayout mDrawerLayout;
@@ -471,6 +528,7 @@ public class MainActivity extends AppCompatActivity
            mDrawerLayout.closeDrawers();
            Intent myIntent = new Intent(MainActivity.this, RatingReport.class);
            myIntent.putExtra("AllCustomers",list);
+           myIntent.putExtra("lang",languges);
            MainActivity.this.startActivity(myIntent);
        }else if (id == R.id.DailyTransactionReport) {
            DrawerLayout mDrawerLayout;
@@ -508,50 +566,19 @@ public class MainActivity extends AppCompatActivity
     public void goToCustomerDirections(View v)
     {
         Button btn = ((Button) v);
-        final String[] cuurentValues = btn.getTag().toString().split(",");
-        ListView Lv=(ListView)findViewById(R.id.lvCurrentOrders);
-        View VV;
-        Boolean exist = false;
-        if ((Integer.parseInt(cuurentValues[7]) >0) && ! Boolean.parseBoolean(cuurentValues[5]) ){
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        String[] cuurentValues = btn.getTag().toString().split(",");
+         VarStatus = cuurentValues [8] ;
+         VarOrderNumber = cuurentValues[3];
+         driverid = cuurentValues[6];
 
-            TextView title = new TextView(this);
 
-            title.setText("خطأ");
-            title.setBackgroundColor(Color.DKGRAY);
-            title.setPadding(10, 10, 10, 10);
-            title.setGravity(Gravity.RIGHT);
-            title.setTextColor(Color.WHITE);
-            title.setTextSize(20);
-            builder.setCustomTitle(title);
-            builder.setMessage("الرجاء تنفيذ العملية الاولى حسب الترتيب الزمني !");
 
-            String positiveText = "Ok";
-            builder.setPositiveButton(positiveText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            return;
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }else{
-            Button btnTemp;
-            for (int i = 0; i < Lv.getCount(); i++) {
-                VV = Lv.getChildAt(i);
-                if(VV != null){
-                    btnTemp=(Button) VV.findViewById(R.id.btnCusLocation);
-                    String[] values = btnTemp.getTag().toString().split(",");
-                    if (cuurentValues[3].toString().equals(values[3])){
-                    }else{
-                        if (Boolean.parseBoolean(values[5])){
-                            exist = true;
-                        }
-                    }
-                }
-            }
-            if (exist){
+
+
+            ListView Lv=(ListView)findViewById(R.id.lvCurrentOrders);
+            View VV = null;
+            Boolean exist = false;
+            if ((Integer.parseInt(cuurentValues[7]) >0) && ! Boolean.parseBoolean(cuurentValues[5]) ){
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
                 TextView title = new TextView(this);
@@ -563,66 +590,205 @@ public class MainActivity extends AppCompatActivity
                 title.setTextColor(Color.WHITE);
                 title.setTextSize(20);
                 builder.setCustomTitle(title);
-                builder.setMessage("يوجد عملية جارية حاليا, الرجاء اغلاق العملية الحالية لبدء عملية اخرى");
+                builder.setMessage("الرجاء تنفيذ العملية الاولى حسب الترتيب الزمني !");
 
                 String positiveText = "Ok";
-                builder.setPositiveButton(positiveText,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else {
+                Button btnTemp;
+                for (int i = 0; i < Lv.getCount(); i++) {
+                    VV = Lv.getChildAt(i);
+                    if (VV != null) {
+                        btnTemp = (Button) VV.findViewById(R.id.btnCusLocation);
+                        String[] values = btnTemp.getTag().toString().split(",");
+
+                        if (cuurentValues[3].toString().equals(values[3])) {
+                        } else {
+                            if (Boolean.parseBoolean(values[5])) {
+                                exist = true;
                             }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-            else{
-                final String[] separated = btn.getTag().toString().split(",");
-                if (separated[0].toString().equals("-")){
+                        }
+                    }
+                }
+                if (exist) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
                     TextView title = new TextView(this);
 
-                    title.setText("تأكيد");
+                    title.setText("خطأ");
                     title.setBackgroundColor(Color.DKGRAY);
                     title.setPadding(10, 10, 10, 10);
                     title.setGravity(Gravity.RIGHT);
                     title.setTextColor(Color.WHITE);
                     title.setTextSize(20);
                     builder.setCustomTitle(title);
-                    builder.setMessage("موقع العميل غير متوفر, هل تريد الاتصال بالعميل لمعرفة الموقع ؟");
+                    builder.setMessage("يوجد عملية جارية حاليا, الرجاء اغلاق العملية الحالية لبدء عملية اخرى");
 
-                    String positiveText = "نعم";
+                    String positiveText = "Ok";
                     builder.setPositiveButton(positiveText,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                                    intent.setData(Uri.parse("tel:" + separated[4].toString()));
-                                    startActivity(intent);
+                                    return;
                                 }
                             });
-
-                    String negativeText = "لا";
-                    builder.setNegativeButton(negativeText,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }else{
-                    Intent myIntent = new Intent(MainActivity.this, CurrentCustomerLocation.class);
-                    myIntent.putExtra("location",btn.getTag().toString());
-                    MainActivity.this.startActivity(myIntent);
+                } else {
+
+                    if (VarStatus.equals("0")) {
+                        VarStatus = "1";
+                        //btn.setText("تم التحميل");
+                        new UpDateOrderStatus().execute();
+                        new DriverOrdersTask().execute();
+
+
+                    } else if (VarStatus.equals("1")) {
+                        //btn.setText("الموقع ");
+                        VarStatus = "2";
+                        new UpDateOrderStatus().execute();
+                        new DriverOrdersTask().execute();
+
+
+                    } else if (VarStatus.equals("2")|VarStatus.equals("8")) {
+                        final String[] separated = btn.getTag().toString().split(",");
+
+                        if (separated[0].toString().equals("-")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                            TextView title = new TextView(this);
+
+                            title.setText("تأكيد");
+                            title.setBackgroundColor(Color.DKGRAY);
+                            title.setPadding(10, 10, 10, 10);
+                            title.setGravity(Gravity.RIGHT);
+                            title.setTextColor(Color.WHITE);
+                            title.setTextSize(20);
+                            builder.setCustomTitle(title);
+                            builder.setMessage("موقع العميل غير متوفر, هل تريد الاتصال بالعميل لمعرفة الموقع ؟");
+
+                            String positiveText = "نعم";
+                            builder.setPositiveButton(positiveText,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                                            intent.setData(Uri.parse("tel:" + separated[4].toString()));
+                                            startActivity(intent);
+                                        }
+                                    });
+
+                            String negativeText = "لا";
+                            builder.setNegativeButton(negativeText,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    });
+
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        } else {
+                            Intent myIntent = new Intent(MainActivity.this, CurrentCustomerLocation.class);
+                            myIntent.putExtra("location", btn.getTag().toString());
+                            //myIntent.putExtra("driverId", varCustNo);
+                            MainActivity.this.startActivity(myIntent);
+                        }
+                    } else if (VarStatus.equals("3"))
+                    { final String[] separated = btn.getTag().toString().split(",");
+                        Toast.makeText(this,separated[3],Toast.LENGTH_SHORT).show();
+
+                        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                        alertDialogBuilder.setMessage("ما هي حالة العملية الان ");
+
+                        alertDialogBuilder.setPositiveButton("لم يتم التسليم ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                final Dialog dialog = new Dialog(MainActivity.this);
+
+
+                                dialog.setTitle("لماذا لم يتم التسليم");
+
+
+                                Rect displayRectangle = new Rect();
+                                Window window = MainActivity.this.getWindow();
+                                window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
+
+                                LayoutInflater inflater = (LayoutInflater)MainActivity.this.getSystemService(MainActivity.this.LAYOUT_INFLATER_SERVICE);
+                                View layout = inflater.inflate(R.layout.delivery_has_not_been_done, null);
+                                layout.setMinimumWidth((int)(displayRectangle.width() * 0.9f));
+                                layout.setMinimumHeight((int)(displayRectangle.height() * 0.6f));
+                                dialog.setContentView(layout);
+                                RadioGroup delevery_not_done = (RadioGroup)dialog.findViewById(R.id.delevery_not_done);
+                                Button submit_not_done=(Button)dialog.findViewById(R.id.submit_not_done);
+
+                                delevery_not_done.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                        switch (checkedId){
+                                            case R.id.delivery_no_cash:
+                                                Vardelevery_not_done = "1";
+                                                break;
+                                            case R.id.delivery_order_less:
+                                                Vardelevery_not_done = "2";
+                                                break;
+                                            case R.id.the_customers_tank_is_full:
+                                                Vardelevery_not_done = "3";
+                                        }
+                                    }
+                                });
+                                submit_not_done.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        new upDateOrderNotDone().execute();
+                                        VarStatus = "7";
+                                        new UpDateOrderStatus().execute();
+                                        new DriverOrdersTask().execute();
+
+                                        // finish();
+
+
+
+                                        myReceiverStatus.setAlarm(getApplicationContext(),VarOrderNumber);
+                                        dialog.dismiss();
+                                        //go to call web service
+                                    }
+                                });
+
+
+                                dialog.show();
+
+                            }
+
+
+                        });
+
+                        alertDialogBuilder.setNegativeButton("تم التسليم ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                VarStatus = "0";
+                                 VarIsDone = "1";
+                                new ChangeStatusTask().execute();
+
+
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
                 }
             }
-
-        }
-
 
     }
     public void sendEmail(View v)
@@ -765,6 +931,7 @@ public class MainActivity extends AppCompatActivity
         myIntent.putExtra("ForAll","F");
         myIntent.putExtra("ClientName",varCustName);
         myIntent.putExtra("acctNo",varCustAcctNo);
+        myIntent.putExtra("languges",languges);
         MainActivity.this.startActivity(myIntent);
     }
     public void goToFacebook(View v)
@@ -864,45 +1031,85 @@ public class MainActivity extends AppCompatActivity
         MainActivity.this.startActivity(myIntent);
     }
     public void goTotSub(View v)
-    {
-        if (varCustAcctNo.equals(""))
-        {
-            Toast.makeText(MainActivity.this,"الرجاء اختيار عميل", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Intent myIntent = new Intent(MainActivity.this, AccountSubActivity.class);
-            myIntent.putExtra("endBalance",endBalance);
-            myIntent.putExtra("varCustName",varCustName);
-            myIntent.putExtra("acctNo",varCustAcctNo);
-            myIntent.putExtra("isAdmin",VarIsAdmin);
-            MainActivity.this.startActivity(myIntent);
-        }
-
+    {  Locale locale = Locale.getDefault();
+       String language = String.valueOf(locale);
+       if (language.contains("en")){
+           if (varCustAcctNo.equals(""))
+           {
+               Toast.makeText(MainActivity.this,"Please Select Customer", Toast.LENGTH_SHORT).show();
+           }
+           else {
+               Intent myIntent = new Intent(MainActivity.this, AccountSubActivity.class);
+               myIntent.putExtra("endBalance",endBalance);
+               myIntent.putExtra("varCustName",varCustName);
+               myIntent.putExtra("acctNo",varCustAcctNo);
+               myIntent.putExtra("isAdmin",VarIsAdmin);
+               MainActivity.this.startActivity(myIntent);
+           }
+       }else{
+           if (varCustAcctNo.equals(""))
+           {
+               Toast.makeText(MainActivity.this,"الرجاء اختيار عميل", Toast.LENGTH_SHORT).show();
+           }
+           else {
+               Intent myIntent = new Intent(MainActivity.this, AccountSubActivity.class);
+               myIntent.putExtra("endBalance",endBalance);
+               myIntent.putExtra("varCustName",varCustName);
+               myIntent.putExtra("acctNo",varCustAcctNo);
+               myIntent.putExtra("isAdmin",VarIsAdmin);
+               MainActivity.this.startActivity(myIntent);
+           }
+       }
     }
     public void customerInfo(View v)
     {
-        if (varCustNo.equals(""))
-        {
-            Toast.makeText(MainActivity.this,"الرجاء اختيار عميل", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Intent myIntent = new Intent(MainActivity.this, CustomerInfo.class);
-            myIntent.putExtra("varCustNo",varCustNo);
-            MainActivity.this.startActivity(myIntent);
+        /*Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);*/
+        if (languges.contains("en")) {
+            if (varCustNo.equals("")) {
+                Toast.makeText(MainActivity.this, "Please Select Customer", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent myIntent = new Intent(MainActivity.this, CustomerInfo.class);
+                myIntent.putExtra("varCustNo", varCustNo);
+                myIntent.putExtra("lang",languges);
+                MainActivity.this.startActivity(myIntent);
+            }
+        }else{
+            if (varCustNo.equals("")) {
+                Toast.makeText(MainActivity.this, "الرجاء اختيار عميل", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent myIntent = new Intent(MainActivity.this, CustomerInfo.class);
+                myIntent.putExtra("varCustNo", varCustNo);
+                myIntent.putExtra("lang",languges);
+
+                MainActivity.this.startActivity(myIntent);
+            }
         }
     }
     public void lastInvoice(View v)
     {
-        if (varCustAcctNo.equals(""))
-        {
-            Toast.makeText(MainActivity.this,"الرجاء اختيار عميل", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Intent myIntent = new Intent(MainActivity.this, LastTransActionActivity.class);
-            myIntent.putExtra("varSource","1");
-            myIntent.putExtra("varAcctNo",varCustAcctNo);
-            myIntent.putExtra("varCustName",varCustName);
-            MainActivity.this.startActivity(myIntent);
+        Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);
+        if (language.contains("en")) {
+            if (varCustAcctNo.equals("")) {
+                Toast.makeText(MainActivity.this, "Please Select Customer", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent myIntent = new Intent(MainActivity.this, LastTransActionActivity.class);
+                myIntent.putExtra("varSource", "1");
+                myIntent.putExtra("varAcctNo", varCustAcctNo);
+                myIntent.putExtra("varCustName", varCustName);
+                MainActivity.this.startActivity(myIntent);
+            }
+        }else{
+            if (varCustAcctNo.equals("")) {
+                Toast.makeText(MainActivity.this, "الرجاء اختيار عميل", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent myIntent = new Intent(MainActivity.this, LastTransActionActivity.class);
+                myIntent.putExtra("varSource", "1");
+                myIntent.putExtra("varAcctNo", varCustAcctNo);
+                myIntent.putExtra("varCustName", varCustName);
+                MainActivity.this.startActivity(myIntent);
+            }
         }
     }
     class subsidaryTask extends AsyncTask<Integer, Integer, String> {
@@ -972,7 +1179,7 @@ public class MainActivity extends AppCompatActivity
                     LinearLayout ll = (LinearLayout) findViewById(R.id.fullscreen_content_controls);
                     ll.setAlpha(1);
 
-                    //Toast.makeText(MainActivity.this, txtCAccNo.getText(), Toast.LENGTH_SHORT).show();
+
                 }
 
             });
@@ -1037,7 +1244,9 @@ public class MainActivity extends AppCompatActivity
                 temp.put(LT_FIRST_COLUMN, reponseArrayString[2]);
                 temp.put(LT_SECOND_COLUMN, reponseArrayString[3]);
                 temp.put(LT_THIRD_COLUMN, reponseArrayString[4]+","+reponseArrayString[5]);
-                if (count == 7){
+                temp.put("VarStatus",reponseArrayString[7]);
+
+                if (count == 8){
                     temp.put(LT_FOURTH_COLUMN, reponseArrayString[6]);
                 }else{
                     temp.put(LT_FOURTH_COLUMN, "0000000");
@@ -1049,6 +1258,56 @@ public class MainActivity extends AppCompatActivity
             }
             adapter=new ListViewAdapterCurrentOrders(MainActivity.this, list);
             listView.setAdapter(adapter);
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+    class UpDateOrderStatus extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            try {
+
+                String METHOD_NAME = "UpdateOrderStatus";
+                String NAMESPACE = "http://37.224.24.195";
+                String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
+                String SOAP_ACTION = "http://37.224.24.195/UpdateOrderStatus";
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("VarOrderNo",VarOrderNumber);
+                request.addProperty("VarOrderStatus", Integer.parseInt(VarStatus));
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, 1000000000);
+                androidHttpTransport.debug = true;
+                androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                androidHttpTransport.call(SOAP_ACTION, envelope);
+                responseObject = (SoapObject) envelope.getResponse();
+                Integer x = 1;
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Task Completed.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
         }
 
         @Override
@@ -1078,17 +1337,33 @@ public class MainActivity extends AppCompatActivity
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         TextView title = new TextView(this);
-
-        title.setText("خروج");
-        title.setBackgroundColor(Color.DKGRAY);
         title.setPadding(10, 10, 10, 10);
-        title.setGravity(Gravity.RIGHT);
+        title.setBackgroundColor(Color.DKGRAY);
         title.setTextColor(Color.WHITE);
         title.setTextSize(20);
         builder.setCustomTitle(title);
-        builder.setMessage("هل تريد الخروج ؟");
+        Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);
+        String positiveText="";
+        String negativeText = "";
+        String naturalText  ="";
+        if (language.contains("en")){
+            title.setText("Exit");
+            title.setGravity(Gravity.LEFT);
+            builder.setMessage("Do you want to log out?");
+            positiveText = "Exit";
+            negativeText ="No";
+           naturalText = "Log Out" +
+                   "";
+        }else{
+            title.setText("خروج");
+            title.setGravity(Gravity.RIGHT);
+            builder.setMessage("هل تريد الخروج ؟");
+            positiveText = "خروج";
+            negativeText = "لا";
+            naturalText = "تسجيل الخروج";
+        }
 
-        String positiveText = "خروج";
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1097,8 +1372,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        String negativeText = "لا";
-        String naturalText = "تسجيل الخروج";
+
         builder.setNegativeButton(negativeText,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1116,8 +1390,9 @@ public class MainActivity extends AppCompatActivity
                         varCustName = "";
                         VarIsAdmin = "";
                         Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
-                        MainActivity.this.startActivity(myIntent);
                         finish();
+
+                        MainActivity.this.startActivity(myIntent);
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -1128,9 +1403,221 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
+
         if (VarIsAdmin.equals("2")){
+            status = false;
+            myReceiverStatus.status = status;
             new DriverOrdersTask().execute();
+        }else if (VarIsAdmin.equals("0")){
+           // new getCustOrder().execute();
+        }
+        else{
+            Intent intent = getIntent();
+            languges  = intent.getStringExtra("lang");
+            if(languges.equals("en")){
+                Locale locale =new Locale(languges);
+                forceLocale(this,locale);
+            }else {
+                Locale locale =new Locale(languges);
+                forceLocale(this,locale);
+            }
         }
         super.onResume();
+    }
+    class ChangeStatusTask extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            try {
+                String METHOD_NAME = "ChangeTripStatus";
+                String NAMESPACE = "http://37.224.24.195";
+                String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
+                String SOAP_ACTION = "http://37.224.24.195/ChangeTripStatus";
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("VarStatus", VarStatus);
+                request.addProperty("VarIsDone", VarIsDone);
+                request.addProperty("VarOrderNo", VarOrderNumber);
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, 1000000000);
+                androidHttpTransport.debug = true;
+                androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                androidHttpTransport.call(SOAP_ACTION, envelope);
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Task Completed.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (VarStatus.equals("0")) {
+                Intent i = new Intent(MainActivity.this, GPSService.class);
+                MainActivity.this.stopService(i);
+                //startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                Intent myIntent = new Intent(MainActivity.this, DrawingSign.class);
+                myIntent.putExtra("OrderNo", VarOrderNumber);
+                myIntent.putExtra("CustID", driverid);
+                MainActivity.this.startActivity(myIntent);
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+    class upDateOrderNotDone extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            try {
+                String METHOD_NAME = "UpdateOrderNotDone";
+                String NAMESPACE = "http://37.224.24.195";
+                String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
+                String SOAP_ACTION = "http://37.224.24.195/UpdateOrderNotDone";
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+               request.addProperty("VarOrderNo", VarOrderNumber);
+                request.addProperty("VarOrderNotDone", Vardelevery_not_done);
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, 1000000000);
+                androidHttpTransport.debug = true;
+                androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                androidHttpTransport.call(SOAP_ACTION, envelope);
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Task Completed.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+    class getCustOrder extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            try {
+
+                String METHOD_NAME = "getCustOrders";
+                String NAMESPACE = "http://37.224.24.195";
+                String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
+                String SOAP_ACTION = "http://37.224.24.195/getCustOrders";
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("VarCustID", VarCustomerId);
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, 1000000000);
+                androidHttpTransport.debug = true;
+                androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                androidHttpTransport.call(SOAP_ACTION, envelope);
+                responseObject = (SoapObject) envelope.getResponse();
+                Integer x = 1;
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Task Completed.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+           /* final ListView listView=(ListView)findViewById(R.id.lvCurrentOrders);
+            list=new ArrayList<HashMap<String,String>>();
+            ListViewAdapterCurrentOrders adapter=new ListViewAdapterCurrentOrders(MainActivity.this, list);
+            listView.setAdapter(adapter);*/
+           if (responseObject.getPropertyCount()>0){
+             Toast.makeText(getApplicationContext(),"yes",Toast.LENGTH_SHORT).show();
+             myReceiverStatusCustomer.setAlarm1(getApplicationContext(),VarCustomerId);
+           }else{
+              myReceiverStatusCustomer.CancelAlarm1(getApplicationContext());
+           }
+
+
+           /* for(int i=0;i<responseObject.getPropertyCount();i++){
+                String [] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
+                HashMap<String,String> temp=new HashMap<String, String>();
+                int count = reponseArrayString.length;
+                temp.put(LT_FIRST_COLUMN, reponseArrayString[2]);
+                temp.put(LT_SECOND_COLUMN, reponseArrayString[3]);
+                temp.put(LT_THIRD_COLUMN, reponseArrayString[4]+","+reponseArrayString[5]);
+                temp.put("VarStatus",reponseArrayString[7]);
+
+                if (count == 8){
+                    temp.put(LT_FOURTH_COLUMN, reponseArrayString[6]);
+                }else{
+                    temp.put(LT_FOURTH_COLUMN, "0000000");
+                }
+
+                temp.put(LT_FIFTH_COLUMN, reponseArrayString[1]);
+                temp.put(LT_SIXTH_COLUMN, reponseArrayString[0]);
+                list.add(temp);*/
+            }
+            /*adapter=new ListViewAdapterCurrentOrders(MainActivity.this, list);
+            listView.setAdapter(adapter);*/
+
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+    public void refreshactivity(){
+
+        new DriverOrdersTask().execute();
+    }
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
     }
 }

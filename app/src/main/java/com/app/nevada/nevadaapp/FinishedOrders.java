@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,16 +56,20 @@ public class FinishedOrders extends AppCompatActivity {
     String VarIsQtyNotGood = "0";
     String VarIsItemNotGood ="0";
     String VarNumberOfStars = "0";
+    String VarAcces = "1";
+    String Vardealing = "1";
+    String VarViewDriver = "1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
+       /* String languageToLoad  = "EN-US";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+                getBaseContext().getResources().getDisplayMetrics());*/
 
         setContentView(R.layout.activity_finished_orders);
 
@@ -76,7 +81,9 @@ public class FinishedOrders extends AppCompatActivity {
     }
     public void UpdateFinished(View view){
         Button btn = ((Button) view);
-        VarOrderNo = btn.getTag().toString();
+        VarOrderNo = btn.getTag(
+
+        ).toString();
 
         new UpdateFinishedOrders().execute();
     }
@@ -84,7 +91,13 @@ public class FinishedOrders extends AppCompatActivity {
         if (ordersExist){
             new UpdateAllFinishedOrders().execute();
         }else{
-            Toast.makeText(FinishedOrders.this,"لا يوجد طلبيات للتأكيد", Toast.LENGTH_SHORT).show();
+            Locale locale =Locale.getDefault();
+            String language= String.valueOf(locale);
+            if (language.contains("en")){
+                Toast.makeText(FinishedOrders.this,"No orders to confirm", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(FinishedOrders.this,"لا يوجد طلبيات للتأكيد", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }
@@ -221,8 +234,14 @@ public class FinishedOrders extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             final Dialog dialog = new Dialog(FinishedOrders.this);
+            Locale locale =Locale.getDefault();
+            String language= String.valueOf(locale);
+            if (language.contains("en")){
+                dialog.setTitle("Evaluation of the order");
+            }else{
+                dialog.setTitle("تقييم الطلبية");
+            }
 
-            dialog.setTitle("تقييم الطلبية");
 
 
             Rect displayRectangle = new Rect();
@@ -230,6 +249,11 @@ public class FinishedOrders extends AppCompatActivity {
             window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
 
             LayoutInflater inflater = (LayoutInflater)FinishedOrders.this.getSystemService(FinishedOrders.this.LAYOUT_INFLATER_SERVICE);
+            /*Locale locale = Locale.getDefault();
+            String language = String.valueOf(locale);
+            if(language.contains("en")){
+
+            }*/
             View layout = inflater.inflate(R.layout.rating_operation, null);
             layout.setMinimumWidth((int)(displayRectangle.width() * 0.9f));
             layout.setMinimumHeight((int)(displayRectangle.height() * 0.6f));
@@ -237,26 +261,71 @@ public class FinishedOrders extends AppCompatActivity {
             final RatingBar simpleRatingBar = (RatingBar) dialog.findViewById(R.id.simpleRatingBar);
             Button dialogButton = (Button) dialog.findViewById(R.id.btnRate);
             final EditText txtNotes = (EditText) dialog.findViewById(R.id.ratingMessage);
-            final CheckBox chkLate = (CheckBox) dialog.findViewById(R.id.chkLate);
-            final CheckBox chkQtyNotGood = (CheckBox) dialog.findViewById(R.id.chkNotGoodQty);
-            final CheckBox chkItemNotGood = (CheckBox) dialog.findViewById(R.id.chkNotGoodItem);
+            RadioGroup Access_radioGroup =(RadioGroup)dialog.findViewById(R.id.Access_radio_group);
+            RadioGroup dealing_radioGroup = (RadioGroup)dialog.findViewById(R.id.dealing_radio_group);
+            RadioGroup view_radiogroup =(RadioGroup)dialog.findViewById(R.id.View_radio_group);
+            Access_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId ){
+                        case  R.id.late:
+                            VarAcces = "3";
+                            break;
+                        case R.id.latesome:
+                            VarAcces = "2";
+                            break;
+                        default:
+                            VarAcces = "1";
+                    }
+                }
+            });
+            dealing_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId)
+                    {
+                        case R.id.dealing_goodMiddel:
+                            Vardealing = "2";
+                            break;
+                        case R.id.dealing_not_good:
+                            Vardealing="3";
+                        default:
+                            Vardealing = "1";
+                    }
+                }
+            });
+            view_radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId){
+                        case R.id.view_not_good:
+                            VarViewDriver = "2";
+                            break;
+                        default:
+                            VarViewDriver = "1";
+
+                    }
+                }
+            });
             dialogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
-                    Toast.makeText(FinishedOrders.this,"تم تأكيد وصول الطلبية, شكرا لك", Toast.LENGTH_SHORT).show();
+                    //dialog.dismiss();
+                    Locale locale =Locale.getDefault();
+                    String language= String.valueOf(locale);
+                    if (language.contains("en")){
+                        Toast.makeText(FinishedOrders.this,"Order confirmation confirmed, thank you", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(FinishedOrders.this,"تم تأكيد وصول الطلبية, شكرا لك", Toast.LENGTH_SHORT).show();
+
+                    }
                     VarNumberOfStars = String.valueOf(Math.round(simpleRatingBar.getRating()));
                     VarNotes = txtNotes.getText().toString();
-                    if (chkLate.isChecked()){
-                        VarIsLate = "1";
-                    }
-                    if (chkQtyNotGood.isChecked()){
-                        VarIsQtyNotGood = "1";
-                    }
-                    if (chkItemNotGood.isChecked()){
-                        VarIsItemNotGood = "1";
-                    }
+
                     new RateOrder().execute();
+                    dialog.dismiss();
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
                 }
             });
@@ -318,7 +387,15 @@ public class FinishedOrders extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(FinishedOrders.this,"تم تأكيد وصول جميع الطلبية, شكرا لك", Toast.LENGTH_SHORT).show();
+            Locale locale =Locale.getDefault();
+            String language= String.valueOf(locale);
+            if (language.contains("en")){
+                Toast.makeText(FinishedOrders.this,"All orders have been confirmed, thank you", Toast.LENGTH_SHORT).show();
+
+            }else{
+                Toast.makeText(FinishedOrders.this,"تم تأكيد وصول جميع الطلبية, شكرا لك", Toast.LENGTH_SHORT).show();
+
+            }
             finish();
         }
 
@@ -348,9 +425,9 @@ public class FinishedOrders extends AppCompatActivity {
                 request.addProperty("VarCustID", VarAccNo);
                 request.addProperty("VarRate", VarNumberOfStars);
                 request.addProperty("VarNote", VarNotes);
-                request.addProperty("VarIsLate", VarIsLate);
-                request.addProperty("VarIsQtyNotGood", VarIsQtyNotGood);
-                request.addProperty("VarIsItemNotGood", VarIsItemNotGood);
+                request.addProperty("VarIsLate", VarViewDriver);
+                request.addProperty("VarIsQtyNotGood", Vardealing);
+                request.addProperty("VarIsItemNotGood", VarAcces);
 
 
 
@@ -376,7 +453,15 @@ public class FinishedOrders extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(FinishedOrders.this,"تم تقييم الطلبية, شكرا لك", Toast.LENGTH_SHORT).show();
+            Locale locale =Locale.getDefault();
+            String language = String.valueOf(locale);
+            if(language.contains("en")){
+                Toast.makeText(FinishedOrders.this,"The order has been evaluated, thank you", Toast.LENGTH_SHORT).show();
+
+            }else{
+                Toast.makeText(FinishedOrders.this,"تم تقييم الطلبية, شكرا لك", Toast.LENGTH_SHORT).show();
+
+            }
             VarNumberOfStars = "0";
             VarNotes = "";
             VarIsLate = "0";

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.app.nevada.nevadaapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -19,17 +20,17 @@
         android:icon="@mipmap/ic_launcher"
         android:label="AL-Deyabi"
         android:supportsRtl="false"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="HardcodedDebugMode">
         <service android:name=".GPSService" />
 
         <activity
             android:name=".MainActivity"
             android:label="          مجموعة الذيابي للنقليات"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" >
-
-    </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Api_Calls" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -37,7 +38,7 @@
         -->
         <meta-data
             android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".LoginActivity"
@@ -49,7 +50,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".AccountSubActivity"
@@ -87,16 +87,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".FollowOrder"
             android:label="@string/title_activity_follow_order" />
-        <activity
-            android:name=".CurrentCustomerLocation"
-            android:label="@string/title_activity_current_customer_location" />
         <activity
             android:name=".CustomerLocation"
             android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" />
@@ -106,13 +100,62 @@
         <activity
             android:name=".FinishedOrders"
             android:theme="@style/FullscreenNoTitle" />
-        <activity android:name="com.app.nevada.nevadaapp.TestLayout" />
-        <activity android:name="com.app.nevada.nevadaapp.SendSMS" />
-        <activity android:name="com.app.nevada.nevadaapp.RatingReport" />
-        <activity android:name="com.app.nevada.nevadaapp.DailyTransactions" />
+        <activity android:name=".TestLayout" />
+        <activity android:name=".SendSMS" />
+        <activity android:name=".RatingReport" />
+        <activity android:name=".DailyTransactions" />
         <activity
             android:name=".ImportantLocations"
-            android:label="@string/title_activity_important_locations"></activity>
+            android:label="@string/title_activity_important_locations" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".CurrentCustomerLocation"
+            android:label="@string/title_activity_current_customer_location" />
+
+        <service
+            android:name=".ServiceStatus"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".MyReceiverStatus"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name=".MyReceiverCustomer"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

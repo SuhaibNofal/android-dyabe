@@ -1,7 +1,9 @@
 package com.app.nevada.nevadaapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -55,26 +57,29 @@ public class CustomerInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
 
+       // String language= String.valueOf(locale);
         setContentView(R.layout.activity_customer_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
-        VarCustomerNo =intent.getStringExtra("varCustNo");
+        VarCustomerNo = intent.getStringExtra("varCustNo");
+        String language= intent.getStringExtra("lang");
+        Locale  locale = new Locale(language);
+        forceLocale(this,locale);
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        if (language.contains("en")){
+            tabLayout.addTab(tabLayout.newTab().setText("Account Information").setTag("1"));
+            tabLayout.addTab(tabLayout.newTab().setText("Deletion information").setTag("2"));
+            tabLayout.addTab(tabLayout.newTab().setText("customer information").setTag("3"));
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        }else{
         tabLayout.addTab(tabLayout.newTab().setText("معلومات الحساب").setTag("1"));
         tabLayout.addTab(tabLayout.newTab().setText("معلومات الذمة").setTag("2"));
         tabLayout.addTab(tabLayout.newTab().setText("معلومات العميل").setTag("3"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);}
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
@@ -374,5 +379,16 @@ public class CustomerInfo extends AppCompatActivity {
         protected void onCancelled() {
 
         }
+    }
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
     }
 }

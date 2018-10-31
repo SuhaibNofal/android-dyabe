@@ -3,6 +3,8 @@ package com.app.nevada.nevadaapp;
 import android.Manifest;
 import android.app.Activity;
 import com.app.nevada.nevadaapp.views.*;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -43,8 +45,14 @@ DrawingSign extends Activity {
     private Button mClearButton;
     private Button mSaveButton;
     String VarOrderNo = "";
+    Context context ;
     String VarCustID="";
     private String filePath ="";
+
+    public DrawingSign() {
+        this.context = DrawingSign.this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +118,7 @@ final int R_per = 123;
                 } else {
 
                 }
+                startActivity(new Intent(context,MainActivity.class));
             }
         });
         

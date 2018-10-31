@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -56,13 +58,13 @@ public class FollowOrder extends FragmentActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
+        /*String languageToLoad  = "EN-US";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+                getBaseContext().getResources().getDisplayMetrics());*/
 
         setContentView(R.layout.activity_follow_order);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -117,15 +119,25 @@ public class FollowOrder extends FragmentActivity implements OnMapReadyCallback 
         intent.setData(Uri.parse("tel:920000194 "));
         startActivity(intent);
     }
-    public void callDriver(View v)
-    {
-        if (varSelectedNo.equals("N")){
-            Toast.makeText(FollowOrder.this,"الرجاء اختيار طلبية", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            if (varDriverNo.equals("N")){
-                Toast.makeText(FollowOrder.this,"رقم السائق غير متوفر", Toast.LENGTH_SHORT).show();
-            }else{
+
+    public void callDriver(View v) {
+        Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);
+        if (varSelectedNo.equals("N")) {
+            if (language.contains("en")) {
+                Toast.makeText(FollowOrder.this, "Please Select Order", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(FollowOrder.this, "الرجاء اختيار طلبية", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            if (varDriverNo.equals("N")) {
+                if (varSelectedNo.equals("N")) {
+                    Toast.makeText(FollowOrder.this, "Driver number not available", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(FollowOrder.this, "رقم السائق غير متوفر", Toast.LENGTH_SHORT).show();
+                }
+            } else {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + varDriverNo));
                 startActivity(intent);
@@ -160,9 +172,15 @@ public class FollowOrder extends FragmentActivity implements OnMapReadyCallback 
 
     }
     public void RefreshMap(View v)
-    {
+    { Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);
         if (varSelectedNo.equals("N")){
-            Toast.makeText(FollowOrder.this,"الرجاء اختيار طلبية", Toast.LENGTH_SHORT).show();
+            if (language.contains("en")) {
+                Toast.makeText(FollowOrder.this, "Please Select Order", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(FollowOrder.this,"الرجاء اختيار طلبية", Toast.LENGTH_SHORT).show();
+
+            }
         }else{
             new GetOrderInfoTask().execute();
         }
@@ -281,7 +299,10 @@ public class FollowOrder extends FragmentActivity implements OnMapReadyCallback 
                     LatLng loc = new LatLng(Double.parseDouble(reponseArrayString[0]),Double.parseDouble(reponseArrayString[1].toString()));
                     mMap.addMarker(new MarkerOptions().position(loc).title("الموقع الحالي").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo( 16.0f ) );
+
+                   /* Locale locale = Locale.getDefault();
+                    String language = String.valueOf(locale);*/
+
                     TextView tvDriverName = (TextView) findViewById(R.id.txtDriverName);
                     tvDriverName.setText(reponseArrayString[3]);
                     TextView tvOrderDate = (TextView) findViewById(R.id.txtOrderDate);

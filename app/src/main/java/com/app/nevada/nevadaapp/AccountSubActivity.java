@@ -148,13 +148,14 @@ public class AccountSubActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
+        /*String languageToLoad  = "EN-US";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+                getBaseContext().getResources().getDisplayMetrics());*/
+
         setContentView(R.layout.activity_account_sub);
 
         mVisible = true;
@@ -514,7 +515,12 @@ public class AccountSubActivity extends AppCompatActivity {
                     txtNoTrans.setText( String.format("%.2f", Double.parseDouble(convertFromArabic(reponseArrayString[8]))));
                 }
                 txtNoTrans=(TextView)findViewById(R.id.txtFinalString);
-                txtNoTrans.setText("الـرصـيــد الـنـهــائـي");
+                Locale  locale = Locale.getDefault();
+                String language= String.valueOf(locale);
+                if (language.contains("en")){
+                    txtNoTrans.setText("End Balance");
+                }else{
+                txtNoTrans.setText("الـرصـيــد الـنـهــائـي");}
                 int rowsCount = Integer.parseInt(convertFromArabic(reponseArrayString[9]));
                 varRowsCount =rowsCount;
                 if (rowsCount < 10)

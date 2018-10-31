@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+
+            android:id="@+id/OurProducts"
+            android:icon="@drawable/our_products"
+            android:visible="false"
+            android:title="Our Products" />
+        <item
+            android:id="@+id/OurClients"
+            android:icon="@drawable/our_clients"
+            android:visible="false"
+            android:title="Our Clients" />
+        <item
+            android:id="@+id/Quotations"
+            android:icon="@drawable/quotation"
+            android:visible="false"
+            android:title="Ask For Quotations" />
+        <item
+            android:id="@+id/Support"
+            android:icon="@drawable/contact_us"
+            android:visible="false"
+            android:title="Support" />
+        <item
+            android:id="@+id/Messages"
+            android:icon="@drawable/contact_us"
+            android:title="@string/send_amessage_to_all_customers_menu"
+            />
+        <item
+            android:id="@+id/RatingReport"
+            android:icon="@drawable/rating"
+
+            android:title="@string/ratings_report_menu" />
+        <item
+            android:id="@+id/DailyTransactionReport"
+            android:icon="@drawable/daily"
+            android:title="@string/daily_responses_report_menu" />
+        <item
+            android:id="@+id/DriverImportantLocations"
+            android:icon="@drawable/implocations"
+            android:title="@string/important_sites_menu" />
+        <item
+            android:id="@+id/AboutUs"
+            android:visible="false"
+            android:icon="@drawable/info"
+            android:title="About Us" />
+    </group>
+
+
+
+</menu>

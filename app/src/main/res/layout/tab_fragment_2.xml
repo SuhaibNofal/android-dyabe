@@ -15,30 +15,30 @@
             android:id="@+id/tab2_InfoLabelsLayout"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:paddingRight="10dp"
             >
             <TextView
                 android:id="@+id/tab2_lblAccMax"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="سقف الحساب"
+                android:text="@string/account_ceiling"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab2_lblChkMax"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="سقف الشيكات"
+                android:text="@string/roof_checks"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab2_lblAccMax"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
 
 
@@ -46,6 +46,7 @@
         <RelativeLayout
             android:id="@+id/tab2_InfodataLayout"
             android:layout_width="180dp"
+            android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
             >
             <EditText
@@ -59,7 +60,7 @@
                 android:text="000000"
                 android:inputType="number"
                 android:selectAllOnFocus="true"
-                android:gravity="right" />
+                android:gravity="left" />
             <EditText
                 android:id="@+id/tab2_lblChkMaxData"
                 android:layout_width="fill_parent"
@@ -72,26 +73,45 @@
                 android:text="000000"
                 android:inputType="number"
                 android:selectAllOnFocus="true"
-                android:gravity="right" />
+                android:gravity="left" />
 
         </RelativeLayout>
 
     </RelativeLayout>
-    <CheckBox android:id="@+id/chkAllow"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="يسمح للعميل بتجاوز السقف"
+        android:orientation="horizontal"
         android:layout_below="@+id/tab2_main_layout"
-        android:layout_alignParentRight="true"
-        android:layoutDirection="rtl"
         android:layout_marginTop="20dp"
-        android:textColor="#2a6496"
-        android:textSize="20sp"
-        android:textStyle="normal|bold" />
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/allows_the_customer_to_bypass_the_ceiling"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:textColor="#2a6496"
+            />
+        <CheckBox android:id="@+id/chkAllow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tab2_main_layout"
+            android:layout_alignParentLeft="true"
+            android:textColor="#2a6496"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+
     <Button style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="    تعديل العميل    "
+        android:text="@string/modify_the_client"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:id="@+id/btnSendQuotation"

@@ -21,153 +21,172 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:gravity="right"
+        android:gravity="left"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content">
+
         <TextView
-            android:id="@+id/tranDateToFilter"
+            android:id="@+id/txtFromDate"
             android:layout_height="wrap_content"
-            android:layout_width="100dp"
-            android:text="الى تاريخ"
-            android:gravity="center"
+            android:layout_width="70dp"
+            android:text="@string/from_date"
             android:layout_gravity="center"
-            android:textColor="#802C2A"
-            android:onClick="callDate"
-            android:textStyle="bold"/>
-        <TextView
-            android:id="@+id/txtToDate"
-            android:layout_height="wrap_content"
-            android:layout_width="50dp"
-            android:text="الى تاريخ "
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/tranDateFromFilter"
             android:layout_height="wrap_content"
             android:layout_width="100dp"
-            android:text="من تاريخ"
+            android:text="@string/from_date"
             android:gravity="center"
             android:textColor="#802C2A"
             android:layout_gravity="center"
             android:onClick="callDate"
             android:textStyle="bold"/>
+
         <TextView
-            android:id="@+id/txtFromDate"
+            android:id="@+id/txtToDate"
             android:layout_height="wrap_content"
             android:layout_width="50dp"
-            android:text="من تاريخ "
+            android:text="@string/to_date"
             android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tranDateToFilter"
+            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:text="@string/to_date"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="#802C2A"
+            android:onClick="callDate"
             android:textStyle="bold"/>
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:gravity="right"
+        android:gravity="left"
         android:layout_height="wrap_content">
-
-        <RatingBar
-            android:id="@+id/repRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="false"
-            android:layoutDirection="rtl"
-            android:textDirection="rtl"
-            android:numStars="5"
-            android:scaleX="-1.5"
-            android:layout_marginRight="30dp"
-            android:scaleY="1.5"
-            style="?android:attr/ratingBarStyleSmall"
-            android:theme="@style/RatingBarS"
-            android:stepSize="1" />
         <TextView
             android:id="@+id/txtRatingVal"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="التقييم"
+            android:text="@string/evaluation"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
+        <!--android:layoutDirection="ltr"
+        android:textDirection="ltr"-->
+        <RatingBar
+            android:id="@+id/repRatingBar"
+
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/SetOrder"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:stepSize="1"
+            android:theme="@style/RatingBarS" />
+
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:gravity="right"
+        android:gravity="left"
         android:layout_height="wrap_content">
+
+        <CheckBox android:id="@+id/chkGetLate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/txtGetLate"
             android:layout_height="wrap_content"
             android:layout_width="200dp"
-            android:text="الطلبيات المتأخرة"
+            android:text="@string/late_requests"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
-        <CheckBox android:id="@+id/chkGetLate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:gravity="right"
+        android:gravity="left"
+        android:mirrorForRtl="true"
+
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/txtGetNotGoodQty"
-            android:layout_height="wrap_content"
-            android:layout_width="200dp"
-            android:text="الطلبيات الغير مطابقة الكمية"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
+
         <CheckBox android:id="@+id/chkGetNotGoodQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtGetNotGoodQty"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/orders_that_do_not_match_quantity"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"/>
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:gravity="right"
+        android:gravity="left"
         android:layout_height="wrap_content">
+
+
+
+        <CheckBox android:id="@+id/chkGetNotGoodItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtGetNotGoodItem"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="الطلبيات الغير مطابقة المادة"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            />
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/search"
+            android:id="@+id/btnRepSearch"
+            android:background="@drawable/corners_border_small"
+            android:textSize="15sp"
+            android:layout_marginLeft="25dp"
+            android:layout_gravity="left"
+            android:textStyle="bold"
+            android:onClick="SearchOrders"
+            android:enabled="true" />
         <ImageView
             android:id="@+id/imgCurrentSearch"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone"
             android:src="@drawable/current_search" />
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="بحث"
-            android:id="@+id/btnRepSearch"
-            android:background="@drawable/corners_border_small"
-            android:textSize="15sp"
-            android:layout_gravity="left"
-            android:textStyle="bold"
-            android:onClick="SearchOrders"
-            android:enabled="true" />
-        <TextView
-            android:id="@+id/txtGetNotGoodItem"
-            android:layout_height="wrap_content"
-            android:layout_width="200dp"
-            android:text="الطلبيات الغير مطابقة المادة"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
-        <CheckBox android:id="@+id/chkGetNotGoodItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
         android:id="@+id/headerLayout"
+
         android:layout_below="@+id/ltHeaderData"
         android:background="@drawable/border_set">
         <TextView
             android:id="@+id/tranDebt"
             android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:text="معلومات"
-            android:gravity="right"
+            android:layout_width="30dp"
+            android:text="@string/information"
+            android:gravity="left"
+            android:textSize="@dimen/view_daily_row_text_size"
+
             android:layout_gravity="center"
             android:layout_weight="0.5"
             android:textColor="#ffffff"
@@ -177,10 +196,11 @@
             android:id="@+id/tranCredit"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="التقييم"
-            android:gravity="right"
+            android:text="@string/evaluation"
+            android:gravity="left"
+            android:textSize="@dimen/view_daily_row_text_size"
             android:layout_gravity="center"
-            android:layout_weight="0.5"
+            android:layout_weight="0.8"
             android:textColor="#ffffff"
             android:textStyle="bold"/>
 
@@ -188,8 +208,9 @@
             android:id="@+id/tranDate"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="اسم العميل"
+            android:text="@string/customer_name"
             android:gravity="center"
+            android:textSize="@dimen/view_daily_row_text_size"
             android:layout_gravity="center"
             android:layout_weight="2"
             android:textColor="#ffffff"
@@ -199,9 +220,10 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="رقم الطلبية"
+            android:text="@string/Order_number"
             android:gravity="center"
             android:layout_gravity="center"
+            android:textSize="@dimen/view_daily_row_text_size"
             android:textColor="#ffffff"
             android:textStyle="bold" />
     </LinearLayout>

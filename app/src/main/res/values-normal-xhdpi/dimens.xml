@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="linear_layout_customer_MarginTop">70dp</dimen>
+    <dimen name="customer_main_marginTop">15dp</dimen>
+    <dimen name="date_of_accountdecleration">20dp</dimen>
+    <dimen name="view_daily_row_text_size">12sp</dimen>
+</resources>

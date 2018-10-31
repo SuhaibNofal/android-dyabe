@@ -47,6 +47,7 @@
             android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:textStyle="normal|bold"
+
             android:layout_below="@id/custNameAr"
             android:textAlignment="center" />
 

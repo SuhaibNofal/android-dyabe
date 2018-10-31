@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <group android:checkableBehavior="single">
         <item
 
@@ -26,19 +27,21 @@
         <item
             android:id="@+id/Messages"
             android:icon="@drawable/contact_us"
-            android:title="إرسال رسالة لجميع العملاء" />
+            android:title="@string/send_amessage_to_all_customers_menu"
+            />
         <item
             android:id="@+id/RatingReport"
             android:icon="@drawable/rating"
-            android:title="تقرير التقييمات" />
+            
+            android:title="@string/ratings_report_menu" />
         <item
             android:id="@+id/DailyTransactionReport"
             android:icon="@drawable/daily"
-            android:title="تقرير الردود اليومية" />
+            android:title="@string/daily_responses_report_menu" />
         <item
             android:id="@+id/DriverImportantLocations"
             android:icon="@drawable/implocations"
-            android:title="المواقع المهمة" />
+            android:title="@string/important_sites_menu" />
         <item
             android:id="@+id/AboutUs"
             android:visible="false"

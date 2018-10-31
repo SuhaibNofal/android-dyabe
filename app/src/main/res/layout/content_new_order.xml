@@ -23,7 +23,7 @@
             android:id="@+id/lblNewOrder"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="طلبية جديدة"
+            android:text="@string/txt_new_order"
             android:textColor="#2a6496"
             android:textSize="25sp"
             android:textStyle="normal|bold"
@@ -34,33 +34,32 @@
             android:id="@+id/InfoLabelsLayout"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/lblNewOrder"
 
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            >
+            android:paddingLeft="@dimen/activity_horizontal_margin"            >
             <TextView
                 android:id="@+id/lblItemName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="المادة"
+                android:text="@string/subject"
                 android:textColor="#2a6496"
                 android:textSize="15sp"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
             <TextView
                 android:id="@+id/lblItemDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="التاريخ"
+                android:text="@string/date_newOrder"
                 android:textColor="#2a6496"
                 android:textSize="15sp"
                 android:layout_below="@+id/lblItemName"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="25dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
             <TextView
                 android:id="@+id/lblItemTime"
@@ -73,37 +72,39 @@
                 android:layout_below="@+id/lblItemDate"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="30dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/lblItemLocation"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="محطة التفريغ"
+                android:text="@string/unloading_station"
                 android:textColor="#2a6496"
                 android:textSize="15sp"
                 android:layout_below="@+id/lblItemTime"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="30dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
             <TextView
                 android:id="@+id/lblOrderDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="تاريخ الحجز"
+                android:text="@string/booking_date"
                 android:textColor="#2a6496"
                 android:textSize="15sp"
                 android:layout_below="@+id/lblItemLocation"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="30dp"
-                android:gravity="right" />
+                android:gravity="left" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/InfodataLayout"
             android:layout_width="180dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/lblNewOrder"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingLeft="8dp"
             >
 
             <Spinner
@@ -182,12 +183,12 @@
                 android:id="@+id/lblarabco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="الرجاء اختيار واحدة من الطلبيات المحجوزة من ارامكو : "
+                android:text="@string/tv_new_order"
                 android:textColor="#2a6496"
                 android:textSize="15sp"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -198,7 +199,7 @@
                     android:id="@+id/txtAramcoQty"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:text="الكمية"
+                    android:text="@string/quantity"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:layout_weight="2"
@@ -208,7 +209,7 @@
                     android:id="@+id/txtAramcoItem"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:text="الوقت المتوقع"
+                    android:text="@string/the_expected_time"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="#ffffff"
@@ -218,7 +219,7 @@
                     android:id="@+id/txtAramcoNo"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:text="رقم الطلبية"
+                    android:text="@string/Order_number"
                     android:gravity="center"
                     android:textColor="#ffffff"
                     android:layout_gravity="center"
@@ -243,7 +244,7 @@
         <Button style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="أطلب"
+            android:text="@string/bu_select"
             android:layout_centerHorizontal="true"
             android:id="@+id/SetOrder"
             android:background="@drawable/border_set"

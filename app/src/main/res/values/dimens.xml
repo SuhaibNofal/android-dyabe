@@ -12,4 +12,7 @@
     <integer name="medium_size">20</integer>
     <dimen name="large_brush">30dp</dimen>
     <integer name="large_size">30</integer>
+    <dimen name="linear_layout_customer_MarginTop">20dp</dimen>
+    <dimen name="customer_main_marginTop">10dp</dimen>
+    <dimen name="view_daily_row_text_size">12sp</dimen>
 </resources>

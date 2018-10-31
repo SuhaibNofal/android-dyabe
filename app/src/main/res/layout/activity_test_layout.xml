@@ -55,5 +55,6 @@
         android:text=" طالب جديد"
         android:textSize="35sp"
         android:background="#1A2C56"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        />
 </LinearLayout>

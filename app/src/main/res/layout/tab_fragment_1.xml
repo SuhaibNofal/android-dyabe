@@ -15,68 +15,70 @@
             android:id="@+id/tab1_InfoLabelsLayout"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:paddingRight="10dp"
             >
             <TextView
                 android:id="@+id/tab1_lblAccNo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="رقم الحساب"
+                android:text="@string/account_number"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab1_lblAccFinalBalance"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="الرصيد النهائي"
+                android:text="@string/end_balance"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab1_lblAccNo"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab1_lblAccDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="تاريخ انشاء الحساب"
+                android:text="@string/date_of_account_creation"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab1_lblAccFinalBalance"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab1_lblStartBalance"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="الرصيد الافتتاحي"
+                android:text="@string/start_balance"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab1_lblAccDate"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab1_lblTranTypes"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="انواع الحركات"
+                android:text="@string/trans_type"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab1_lblStartBalance"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/tab1_InfodataLayout"
             android:layout_width="180dp"
+            android:layout_alignParentRight="true"
+
             android:layout_height="wrap_content"
             >
             <TextView
@@ -106,7 +108,7 @@
                 android:textSize="20sp"
                 android:layout_below="@+id/tab1_lblAccFinalBalanceData"
                 android:textStyle="normal|bold"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:gravity="right" />
             <TextView
                 android:id="@+id/tab1_lblStartBalanceData"
@@ -116,7 +118,7 @@
                 android:textSize="20sp"
                 android:layout_below="@+id/tab1_lblAccDateData"
                 android:textStyle="normal|bold"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:gravity="right" />
             <TextView
                 android:id="@+id/tab1_lblTranTypesData"

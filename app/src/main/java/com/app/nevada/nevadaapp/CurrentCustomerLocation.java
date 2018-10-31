@@ -1,6 +1,7 @@
 package com.app.nevada.nevadaapp;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Geocoder;
 import android.location.Location;
@@ -24,12 +26,15 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,8 +76,11 @@ import static com.app.nevada.nevadaapp.Constants.CUS_SECOND_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.CUS_THIRD_COLUMN;
 
 public class CurrentCustomerLocation extends FragmentActivity implements OnMapReadyCallback {
+//54:06:74:05:4A:65:D3:EB:76:73:11:4D:9D:60:AF:DE:C8:E9:98:B4
 
+    Context context;
      private GoogleMap mMap;
+    SoapObject responseObject;
     String XYLocation;
     String VarOrderNo = "";
     String VarCustID = "";
@@ -86,6 +94,11 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
     double CustLongData = 0;
     double CustLatData = 0;
     int VarTrafficVisable = 0;
+    String Vardelevery_not_done = "0";
+//String id =
+    public CurrentCustomerLocation() {
+        this.context = CurrentCustomerLocation.this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,11 +115,25 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
         VarCustName = separated[2];
         if (VarIsOnRoad) {
             Button btn = (Button) findViewById(R.id.btnStartTrip);
-            btn.setText("    وصول     ");
+            Locale local = Locale.getDefault();
+            String Languge = String.valueOf(local);
+            if(Languge.contains("en")){
+                btn.setText("    Access     ");
+            }else{
+                btn.setText("    وصول     ");
+            }
+
             btn.setBackgroundColor(Color.RED);
         } else {
             Button btn = (Button) findViewById(R.id.btnStartTrip);
-            btn.setText("    ابدأ     ");
+            Locale local = Locale.getDefault();
+            String Languge = String.valueOf(local);
+            if(Languge.contains("en")){
+                btn.setText("    start     ");
+            }else{
+                btn.setText("    ابدأ     ");
+            }
+
             btn.setBackgroundColor(Color.parseColor("#3F51B5"));
         }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -114,6 +141,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         chicpermision();
+
 
     }
 
@@ -127,8 +155,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
         if (ActivityCompat.checkSelfPermission(CurrentCustomerLocation.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CurrentCustomerLocation.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(CurrentCustomerLocation.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-
-
+            Log.d("mMap  ","::Map ready");
         } else {
 
             //Toast.makeText(CurrentCustomerLocation.this,"2", Toast.LENGTH_SHORT).show();
@@ -354,9 +381,20 @@ return;
     public void gotogoogleMap(View view) {
         Toast.makeText(this, "hellow", Toast.LENGTH_SHORT).show();
         String uri = String.format(Locale.ENGLISH,"geo:%f,%f",CustLongData,CustLatData);
-       // Uri gmmIntentUri = Uri.parse("geo:"+CustLongData+CustLatData);
+      /* Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr="+CurrLatData+","+CurrLongData+"&daddr="+CustLatData+","+CustLongData));
+        intent.setPackage("com.google.android.apps.maps");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }*/ // Uri gmmIntentUri = Uri.parse("geo:"+CustLongData+CustLatData);
+
+
+        /*Uri navigationIntentUri = Uri.parse("google.navigation:q=" + Cu  +"," + 2f);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);*/
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?saddr="+CurrLongData+","+CurrLatData+"&daddr="+CustLongData+","+CustLatData));
+                Uri.parse("http://maps.google.com/maps?daddr="+CustLongData+","+CustLatData));
         startActivity(intent);
     }
 
@@ -437,18 +475,18 @@ return;
             title.setTextColor(Color.WHITE);
             title.setTextSize(20);
             builder.setCustomTitle(title);
-            builder.setMessage("سوف يتم انهاء الرحلة وايقاف التتبع, تأكيد ؟");
+            builder.setMessage("تم الوصول الى موقع العميل وسيتم بدء التفريغ ؟");
 
             String positiveText = "نعم";
             builder.setPositiveButton(positiveText,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            VarStatus = "0";
-                            VarIsDone = "1";
-                            new ChangeStatusTask().execute();
-                            finish();
+                           //startActivity(new Intent(getApplicationContext(),CurrentCustomerLocation.class));
+                            new UpDateOrderStatus().execute();
+                           finish();
                         }
+
                     });
 
             String negativeText = "لا";
@@ -456,6 +494,7 @@ return;
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
                             finish();
                         }
                     });
@@ -505,6 +544,57 @@ return;
         }
     }
 
+    class UpDateOrderStatus extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            try {
+
+                String METHOD_NAME = "UpdateOrderStatus";
+                String NAMESPACE = "http://37.224.24.195";
+                String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
+                String SOAP_ACTION = "http://37.224.24.195/UpdateOrderStatus";
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                request.addProperty("VarOrderNo",VarOrderNo);
+                request.addProperty("VarOrderStatus", 3);
+
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, 1000000000);
+                androidHttpTransport.debug = true;
+                androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                androidHttpTransport.call(SOAP_ACTION, envelope);
+                responseObject = (SoapObject) envelope.getResponse();
+                Integer x = 1;
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Task Completed.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+
     class ChangeStatusTask extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
@@ -540,13 +630,13 @@ return;
         @Override
         protected void onPostExecute(String result) {
             if (VarStatus.equals("0")) {
-                Intent i = new Intent(CurrentCustomerLocation.this, GPSService.class);
+               /* Intent i = new Intent(CurrentCustomerLocation.this, GPSService.class);
                 CurrentCustomerLocation.this.stopService(i);
                 //startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 Intent myIntent = new Intent(CurrentCustomerLocation.this, DrawingSign.class);
                 myIntent.putExtra("OrderNo", VarOrderNo);
                 myIntent.putExtra("CustID", VarCustID);
-                CurrentCustomerLocation.this.startActivity(myIntent);
+                CurrentCustomerLocation.this.startActivity(myIntent);*/
             }
         }
 
@@ -686,14 +776,17 @@ return;
         // Executes in UI thread, after the parsing process
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
+
+            ArrayList<LatLng> points=null;
             PolylineOptions lineOptions = null;
             MarkerOptions markerOptions = new MarkerOptions();
 
             // Traversing through all the routes
             for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<LatLng>();
+                points = new ArrayList<>();
                 lineOptions = new PolylineOptions();
+
+
 
                 // Fetching i-th route
                 List<HashMap<String, String>> path = result.get(i);
@@ -724,6 +817,10 @@ return;
                 createMarker(CustLongData, CustLatData, "موقع العميل", VarCustName, 2);
             }
             else{
+
+
+                Log.d("onPostExecute", String.valueOf(result));
+
                 Toast.makeText(CurrentCustomerLocation.this,"Please Refresh Map",Toast.LENGTH_SHORT).show();
             }
         }

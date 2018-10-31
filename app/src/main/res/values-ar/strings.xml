@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name"><b>Nevada ERP Systems </b></string>
+    <string name="car">السيارة</string>
+    <string name="title_activity_login">Log in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Account Name</string>
+    <string name="prompt_password">Password </string>
+    <string name="action_sign_in">Log In</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="title_activity_account_sub">AccountSubActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_customer_info">CustomerInfo</string>
+    <string name="title_activity_last_trans_action">LastTransActionActivity</string>
+
+    <string name="title_activity_new_order">NewOrder</string>
+    <string name="title_activity_follow_order">Map</string>
+    <string name="title_activity_current_customer_location">Map</string>
+    <string name="title_activity_customer_location">Map</string>
+    <string name="title_activity_test_layout">TestLayoutActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_important_locations">Map</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="account_number">رقم الحساب</string>
+    <string name="find_by_number">البحث عن الرقم</string>
+    <string name="find_by_name">البحث عن الاسم</string>
+
+    //main activity translate Driver
+    <string name = "driver_name">اسم السائق</string>
+    <string name = "Functional_number">الرقم الوظيفي</string>
+    <string name = "the_car">السيارة</string>
+    <string name = "Orders_available">الطلبيات المتاحة</string>
+    <string name = "Order_number">رقم الطلبية </string>
+    <string name = "customer_name">اسم العميل</string>
+    <string name = "Customer_location">موقع العميل</string>
+    <string name="update">تحديث</string>
+
+    //main activity translate Customer
+    <string name = "balance">الرصيد</string>
+    <string name = "date_of_account_creation">تاريخ انشاء الحساب</string>
+    <string name = "sٍection">الفرع</string>
+    <string name = "start_balance">الرصيد الافتتاحي</string>
+    <string name = "confirm_access">تاكيد الوصول</string>
+    <string name = "track_order">تتبع الطلبية</string>
+    <string name = "new_order">طلبية جديدة</string>
+    <string name = "bill">كشف حساب</string>
+    //translate activity_daily_transaction
+    <string name="from_date">من تاريخ </string>
+    <string name="to_date">الى تاريخ</string>
+    <string name="all">الكل</string>
+    <string name="replies_under_implementation">الردود تحت التنفيذ</string>
+    <string name="confirmed_responses_from_the_driver_only">الردود المؤكدة من السائق فقط</string>
+    <string name="confirmed_responses">الردود المؤكدة</string>
+    <string name="search">بحث</string>
+    <string name="under_implementation">تحت التنفيذ</string>
+    <string name="driver">السائق</string>
+    <string name="customer">العميل</string>
+
+    // translate activity_rating_report
+    <string name="evaluation">التقييم</string>
+    <string name="information">معلومات</string>
+    <string name="late_requests">الطلبيات المتاخرة</string>
+    <string name="orders_that_do_not_match_quantity">الطلبيات الغير مطابة الكمية</string>
+    <string name="applications_not_matching_the_material">الطلبيات الغير مطابة المادة</string>
+
+    //translate activity_last_trans_action
+    <string name="tran_type">نوع الحركة</string>
+    <string name="trans_number">رقم الحركة</string>
+    <string name="trans_date">تاريخ الحركة</string>
+    <string name="debit">مدين</string>
+    <string name="creditor">دائن</string>
+    <string name="account_name">اسم الحساب</string>
+    <string name="Thestatement">البيان</string>
+    <string name="txt_there_are_no_movements">لا يوجد حركات</string>
+
+
+    //translate tab_fragment_1
+    <string name="end_balance">الرصيد النهائي</string>
+    <string name="trans_type">نواع الحركات</string>
+
+    //translate tab_fragment_2
+    <string name="allows_the_customer_to_bypass_the_ceiling">يسمح للعميل بتجاوز السقف</string>
+    <string name="account_ceiling">سقف الحساب</string>
+    <string name="roof_checks">سقف الشيكات</string>
+    <string name="modify_the_client">تعديل العميل</string>
+
+    //translate tab_fragment_3
+    <string name="country">الدولة</string>
+    <string name="city">المدينة</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="mail_box">صندوق البريد</string>
+    <string name="address">العنوان</string>
+    <string name="Email">البريد الالكتروني</string>
+
+    //translate activity_send_sms
+    <string name="send">ارسال</string>
+    <string name="please_enter_the_message">الرجاء ادخال الرسالة</string>
+    //translate activity_new_order
+    <string name="txt_new_order">لبية جديدة</string>
+    <string name="subject">المادة</string>
+    <string name="date_newOrder">التاريخ</string>
+    <string name="unloading_station">محطة التفريغ</string>
+    <string name="booking_date">تاريخ الحجز</string>
+    <string name="tv_new_order">الرجاء اختيار واحدة من الطلبيات المحجوزة من ارامكو :</string>
+    <string name="the_expected_time">الوقت المتوقع</string>
+    <string name="quantity">الكمية</string>
+    <string name="bu_select">أطلب</string>
+
+    //translate activity_follow_order
+    <string name="the_number_and_date_of_the_request">رقم وتاريخ الطلب</string>
+    <string name="The_drivers_name">اسم السائق</string>
+    <string name="call_company">الاتصال بالشركة</string>
+    <string name="call_Driver">الاتصال بالسائق</string>
+    <string name="current_effective_orders">الطلبيات الفعالة الحالية :</string>
+
+    //translate activity_finish_order
+    <string name="tV_finish_order_alert"> الرجاء عدم تأكيد الطلبيات الا في حالة وصول الطلبية كاملة والتأكد منها وذلك لإغلاق الطلبية </string>
+    <string name="tv_finish_order">الرجاء تأكيد وصول الطلبيات التالية</string>
+    <string name="tv_confirmation_finish_order">تاكيد</string>
+    <string name="bu_Confirm_all_finish_order">تاكيد الكل</string>
+    <string name="no_order_available">لا يوجد طلبات لتاكيد</string>
+
+    //translate rating_operation
+    <string name="seemly_rating">لائق</string>
+    <string name="unseemly_rating">غير لائق</string>
+    <string name="fine_rating">جيد</string>
+    <string name="uncivil_rating">لائق</string>
+    <string name="civil_rating">غير لائق</string>
+    <string name="on_time_rating"> في الوقت المحدد</string>
+    <string name="delayed_slightly_rating">تاخر قليلا</string>
+    <string name="too_late">تاخر كثيرا</string>
+    <string name="bu_Evaluation_rating">تقييم</string>
+    <string name="arrival_time_rating">وقت الوصول</string>
+    <string name="handle_the_driver_rating">تعامل السائق</string>
+    <string name="the_driver_form_rating">شكل السائق</string>
+    <string name="note_rating">الملاحظات</string>
+
+    //translate review_the_order
+    <string name="confirm_order_review">تاكيد الطلبية</string>
+    <string name="tv_review"> لن يتم إيصال الرد الا في حالة تحويل المبلغ قبل 24 ساعة من ميعاد التنفيذ</string>
+    <string name="upload_date_review">تاريخ التحميل:</string>
+    <string name="expected_time_of_arrival_review">الوقت المتوقع للوصول:</string>
+    <string name="price_review">سعر المادة:</string>
+    <string name="subject_type_review">نوع المادة</string>
+
+    <string name="transportation_price_review">سعر النقل:</string>
+    <string name="total_review">الاجمالي:</string>
+    <string name="bu_cancl">الغاء</string>
+    <string name="confirmation_review">تاكيد</string>
+
+    //translate activity_main_drawer
+    <string name="send_amessage_to_all_customers_menu">إرسال رسالة لجميع العملاء</string>
+    <string name="ratings_report_menu">تقرير التقييمات</string>
+    <string name="daily_responses_report_menu">تقرير الردود اليومية</string>
+    <string name="important_sites_menu">المواقع المهمة</string>
+    <string name="go_to_google">الذهاب الى Google</string>
+    <string name="start">ابدأ</string>
+
+    <string name="enter">دخول</string>
+
+
+
+
+</resources>

@@ -2,9 +2,12 @@ package com.app.nevada.nevadaapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -25,6 +28,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static com.app.nevada.nevadaapp.Constants.CUS_FIRST_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.CUS_SECOND_COLUMN;
@@ -45,15 +49,30 @@ public class SendSMS extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_sms);
-
         Intent intent = getIntent();
+
+        String lang = intent.getStringExtra("languges");
+        Locale locale = new Locale(lang);
+        forceLocale(this,locale);
+        //Locale locale1 = Locale.getDefault();
+        String language = String.valueOf(locale);
+        if (language.contains("en")){
+            EditText txtMessage=(EditText)findViewById(R.id.messageArea);
+            txtMessage.setGravity(Gravity.LEFT);
+        }
+
         VarForAll= intent.getStringExtra("ForAll");
         VarClientAcc= intent.getStringExtra("acctNo");
         VarClientName= intent.getStringExtra("ClientName");
         if (VarForAll.equals("T"))
         {
             EditText txtName=(EditText)findViewById(R.id.txtUserName);
-            txtName.setText("لجميع العملاء");
+            if (language.contains("en")){
+                txtName.setText("All Customer");
+            }else{
+                txtName.setText("لجميع العملاء");
+            }
+
             TextView Alert1=(TextView)findViewById(R.id.txtAlert1);
             TextView Alert2=(TextView)findViewById(R.id.txtAlert2);
             Alert1.setVisibility(View.VISIBLE);
@@ -69,10 +88,17 @@ public class SendSMS extends AppCompatActivity {
         }
     }
     public void SendMessage(View v){
+        Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);
         EditText txtMessage=(EditText)findViewById(R.id.messageArea);
         VarMessage=txtMessage.getText().toString();
         if (VarMessage.equals("")){
-            Toast.makeText(SendSMS.this,"الرجاء ادخال الرسالة المراد ارسالها !", Toast.LENGTH_SHORT).show();
+            if(language.contains("en")){
+                Toast.makeText(this,"Please insert the messages !",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(SendSMS.this,"الرجاء ادخال الرسالة المراد ارسالها !", Toast.LENGTH_SHORT).show();
+            }
+
         }else{
             new SendSMSTask().execute();
         }
@@ -131,5 +157,16 @@ public class SendSMS extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
 
         }
+    }
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
     }
 }

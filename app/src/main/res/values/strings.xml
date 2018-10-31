@@ -98,4 +98,145 @@ info@awaelksa.com\n</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_important_locations">Map</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="car">car</string>
+    <string name="account_number">Account Number</string>
+    <string name="find_by_number">Find by number</string>
+    <string name="find_by_name">Find by name </string>
+
+
+
+    //main activity translate Driver
+    <string name = "driver_name">Driver Name</string>
+    <string name = "Functional_number">Functional number</string>
+    <string name = "the_car">the car</string>
+    <string name = "Orders_available">Orders available</string>
+    <string name = "Order_number">Order number</string>
+    <string name = "customer_name">Customer name</string>
+    <string name = "Customer_location">Customer location</string>
+    <string name="update">Update</string>
+
+    //main activity translate Customer
+    <string name = "balance">Balance</string>
+    <string name = "date_of_account_creation">Date of account creation</string>
+    <string name = "sٍection">Section</string>
+    <string name = "start_balance">Start_balance</string>
+    <string name = "confirm_access">Confirm access</string>
+    <string name = "track_order">Track order</string>
+    <string name = "new_order">New order</string>
+    <string name = "bill">bill</string>
+
+    //translate activity_daily_transaction
+    <string name="from_date">From Date </string>
+    <string name="to_date">To Date</string>
+    <string name="all">All</string>
+    <string name="replies_under_implementation">Replies under implementation</string>
+    <string name="confirmed_responses_from_the_driver_only">Confirmed responses from the driver only</string>
+    <string name="confirmed_responses">Confirmed responses</string>
+    <string name="search">search</string>
+    <string name="under_implementation">Under implementation</string>
+    <string name="driver">Driver</string>
+    <string name="customer">customer</string>
+
+    // translate activity_rating_report
+    <string name="evaluation">Evaluation</string>
+    <string name="information">Information</string>
+    <string name="late_requests">Late requests</string>
+    <string name="orders_that_do_not_match_quantity">Orders that do not match quantity</string>
+    <string name="applications_not_matching_the_material">Orders not matching the material</string>
+
+    //translate activity_last_trans_action
+    <string name="tran_type">Tran Type </string>
+    <string name="trans_number">Trans Number</string>
+    <string name="trans_date">Trans Date</string>
+    <string name="debit">Debit</string>
+    <string name="creditor">Credit</string>
+    <string name="account_name">Account_Name</string>
+    <string name="Thestatement">Subject</string>
+    <string name="txt_there_are_no_movements">There are no movements</string>
+
+    //translate tab_fragment_1
+    <string name="end_balance">End Balance</string>
+    <string name="trans_type">Trans Type</string>
+
+    //translate tab_fragment_2
+    <string name="allows_the_customer_to_bypass_the_ceiling">Allows the customer to bypass the ceiling</string>
+    <string name="account_ceiling">Account ceiling</string>
+    <string name="roof_checks">Roof checks</string>
+    <string name="modify_the_client">Modify the client</string>
+
+    //translate tab_fragment_3
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="mail_box">Mail Box</string>
+    <string name="address">Address</string>
+    <string name="Email">E-mail</string>
+
+    //translate activity_send_sms
+    <string name="send">Send</string>
+    <string name="please_enter_the_message">Please enter the message</string>
+    
+    //translate activity_new_order
+    <string name="txt_new_order">New Order</string>
+    <string name="subject">Subject</string>
+    <string name="date_newOrder">Date</string>
+    <string name="unloading_station">station</string>
+    <string name="booking_date">Booking Date</string>
+    <string name="tv_new_order">Please choose one of ARAMCO reserved orders:</string>
+    <string name="the_expected_time">the expected time</string>
+    <string name="quantity">Quantity</string>
+    <string name="bu_select">Select</string>
+
+    //translate activity_follow_order
+    <string name="the_number_and_date_of_the_request">Number and date the request</string>
+    <string name="The_drivers_name">The drivers name</string>
+    <string name="call_company">Call Company</string>
+    <string name="call_Driver">Call Driver</string>
+    <string name="current_effective_orders">Current effective orders:</string>
+
+    //translate activity_finish_order
+    <string name="tV_finish_order_alert">Please do not confirm the orders unless you have received the order in order to close the order</string>
+    <string name="tv_finish_order">Please confirm the arrival of the following orders</string>
+    <string name="tv_confirmation_finish_order">confirmation</string>
+    <string name="bu_Confirm_all_finish_order">Confirm all</string>
+    <string name="no_order_available">No Order available</string>
+
+
+    //translate rating_operation
+    <string name="seemly_rating">seemly</string>
+    <string name="unseemly_rating">unseemly</string>
+    <string name="fine_rating">fine</string>
+    <string name="uncivil_rating">uncivil</string>
+    <string name="civil_rating">civil</string>
+    <string name="on_time_rating">on time</string>
+    <string name="delayed_slightly_rating">Delayed slightly</string>
+    <string name="too_late">too late</string>
+    <string name="bu_Evaluation_rating">Evaluation</string>
+    <string name="arrival_time_rating">Arrival time</string>
+    <string name="handle_the_driver_rating">Handle the driver</string>
+    <string name="the_driver_form_rating">The driver form</string>
+    <string name="note_rating">Notes</string>
+
+    //translate review_the_order
+    <string name="confirm_order_review">Confirm order</string>
+    <string name="tv_review">A refund will be sent only if the amount is transferred 24 hours before the execution date</string>
+    <string name="upload_date_review">Upload Date:</string>
+    <string name="expected_time_of_arrival_review">Expected time of arrival:</string>
+    <string name="price_review">Price:</string>
+    <string name="subject_type_review">subject_type</string>
+    <string name="transportation_price_review">Transportation Price:</string>
+    <string name="total_review">Total</string>
+    <string name="bu_cancl">Cancl</string>
+    <string name="confirmation_review">Confirmation</string>
+
+    //translate activity_main_drawer
+    <string name="send_amessage_to_all_customers_menu">Send a message to all customers</string>
+    <string name="ratings_report_menu">Rating Report</string>
+    <string name="daily_responses_report_menu">Daily responses report</string>
+    <string name="important_sites_menu">Important sites</string>
+<string name="go_to_google">Go TO Google</string>
+    <string name="start">Start</string>
+
+    <string name="enter">Enter</string>
 </resources>

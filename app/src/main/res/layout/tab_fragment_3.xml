@@ -15,79 +15,81 @@
             android:id="@+id/tab3_InfoLabelsLayout"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:paddingRight="10dp"
             >
             <TextView
                 android:id="@+id/tab3_lblCountry"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="الدولة"
+                android:text="@string/country"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblCity"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="المدينة"
+                android:text="@string/city"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab3_lblCountry"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblPhoneNo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="رقم الهاتف"
+                android:text="@string/phone_number"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab3_lblCity"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblPoOffice"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="صندوق البريد"
+                android:text="@string/mail_box"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab3_lblPhoneNo"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
             <TextView
                 android:id="@+id/tab3_lblAddress"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="العنوان"
+                android:text="@string/address"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab3_lblPoOffice"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblEmail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="البريد الالكتروني"
+                android:text="@string/Email"
                 android:textColor="#2a6496"
                 android:textSize="20sp"
                 android:layout_below="@+id/tab3_lblAddress"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/tab3_InfodataLayout"
             android:layout_width="180dp"
+            android:layout_alignParentRight="true"
+
             android:layout_height="wrap_content"
             >
             <TextView
@@ -98,7 +100,7 @@
                 android:textSize="20sp"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblCityData"
                 android:layout_width="fill_parent"
@@ -108,7 +110,7 @@
                 android:layout_below="@+id/tab3_lblCountryData"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblPhoneNoData"
                 android:layout_width="fill_parent"
@@ -118,7 +120,7 @@
                 android:layout_below="@+id/tab3_lblCityData"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblPoOfficeData"
                 android:layout_width="fill_parent"
@@ -128,7 +130,7 @@
                 android:layout_below="@+id/tab3_lblPhoneNoData"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
 
             <TextView
                 android:id="@+id/tab3_lblAddressData"
@@ -139,7 +141,7 @@
                 android:layout_below="@+id/tab3_lblPoOfficeData"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
             <TextView
                 android:id="@+id/tab3_lblEmailData"
                 android:layout_width="fill_parent"
@@ -149,7 +151,7 @@
                 android:layout_below="@+id/tab3_lblAddressData"
                 android:textStyle="normal|bold"
                 android:layout_marginTop="20dp"
-                android:gravity="right" />
+                android:gravity="left" />
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

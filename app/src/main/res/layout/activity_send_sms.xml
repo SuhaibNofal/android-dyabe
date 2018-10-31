@@ -48,13 +48,13 @@
                 android:lines="8"
                 android:inputType="textMultiLine"
                 android:textSize="13sp"
-                android:hint="الرجاء ادخال الرسالة"
+                android:hint="@string/please_enter_the_message"
                 android:textStyle="bold"/>
         </LinearLayout>
         <Button style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ارسال"
+            android:text="@string/send"
             android:layout_below="@+id/messageEnterMessLayout"
             android:id="@+id/btnSendMessage"
             android:background="@drawable/corners_border_small"
@@ -70,9 +70,10 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/btnSendMessage"
             android:layout_marginTop="20dp"
-            android:text="سيتم ارسال الرسالة لجميع العملاء الموجودة ارقامهم"
+            android:text="The message will be sent to all existing customers' numbers"
             android:gravity="center"
             android:textColor="#ff0000"
+            android:textSize="10sp"
             android:layout_gravity="center"
             android:textStyle="bold"/>
         <TextView
@@ -81,10 +82,12 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/txtAlert1"
             android:layout_marginTop="10dp"
-            android:text="في حال عدم وجود الرقم, لن يتم ارسال الرسالة للعميل"
+            android:text="If the number is not present, the message will not be sent to the customer"
             android:gravity="center"
+            android:textSize="10sp"
             android:textColor="#ff0000"
             android:layout_gravity="center"
             android:textStyle="bold"/>
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

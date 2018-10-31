@@ -32,8 +32,6 @@ import static com.app.nevada.nevadaapp.Constants.CUS_FIFTH_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.CUS_FIRST_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.CUS_FOURTH_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.CUS_SECOND_COLUMN;
-import static com.app.nevada.nevadaapp.Constants.CUS_SEVENTH_COLUMN;
-import static com.app.nevada.nevadaapp.Constants.CUS_SIXTH_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.CUS_THIRD_COLUMN;
 
 public class DailyTransactions extends AppCompatActivity {
@@ -102,8 +100,9 @@ public class DailyTransactions extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int VarThisMonth = calendar.get(Calendar.MONTH);
         String ThisMonthFinal ="";
-        if (VarThisMonth < 10){;
-            ThisMonthFinal = "0"+String.valueOf(VarThisMonth+1);
+        if (VarThisMonth < 10 ){
+            if (VarThisMonth ==9){ ThisMonthFinal = ""+String.valueOf(VarThisMonth+1);}else{
+            ThisMonthFinal = "0"+String.valueOf(VarThisMonth+1);}
         }else{
             ThisMonthFinal = String.valueOf(VarThisMonth+1);
         }

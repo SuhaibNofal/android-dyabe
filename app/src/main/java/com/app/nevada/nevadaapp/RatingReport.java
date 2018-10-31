@@ -6,6 +6,8 @@ import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -66,37 +68,40 @@ public class RatingReport extends AppCompatActivity {
 
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
-    private String varFromDate ;
-    private String varToDate ;
+    private String varFromDate;
+    private String varToDate;
     private TextView fromDateEtxt;
     private TextView toDateEtxt;
     private SimpleDateFormat dateFormatter;
-    String VarCustomerAccNumber ="0";
+    String VarCustomerAccNumber = "0";
     String VarIsLate = "0";
     String VarIsQtyNotGood = "0";
     String VarIsItemNotGood = "0";
     String VarRate = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_report);
 
         new GetAllCustomerTask().execute();
-
-        Spinner ddlAllCustomers = (Spinner)findViewById(R.id.spCustomers);
+        Intent intent = getIntent();
+        String languges = intent.getStringExtra("lang");
+        Locale locale =new Locale(languges);
+        forceLocale(this,locale);
+        Spinner ddlAllCustomers = (Spinner) findViewById(R.id.spCustomers);
         ddlAllCustomers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-                if (pos > 0 )
-                {
+                if (pos > 0) {
                     StringWithTag sel = (StringWithTag) parent.getItemAtPosition(pos);
-                    VarCustomerAccNumber =sel.tag.toString();
-                } else
-                {
-                    VarCustomerAccNumber ="0";
+                    VarCustomerAccNumber = sel.tag.toString();
+                } else {
+                    VarCustomerAccNumber = "0";
                 }
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
 
@@ -108,6 +113,7 @@ public class RatingReport extends AppCompatActivity {
 
 
     }
+
     private void setDateTimeField() {
         Calendar newCalendar = Calendar.getInstance();
         fromDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -121,7 +127,7 @@ public class RatingReport extends AppCompatActivity {
                 varToDate = toDateEtxt.getText().toString();
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         toDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -134,11 +140,12 @@ public class RatingReport extends AppCompatActivity {
                 varToDate = toDateEtxt.getText().toString();
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         varFromDate = fromDateEtxt.getText().toString();
         varToDate = toDateEtxt.getText().toString();
     }
+
     private void findViewsById() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -146,61 +153,64 @@ public class RatingReport extends AppCompatActivity {
         fromDateEtxt.setInputType(InputType.TYPE_NULL);
         toDateEtxt = (TextView) findViewById(R.id.tranDateToFilter);
         toDateEtxt.setInputType(InputType.TYPE_NULL);
-        fromDateEtxt.setText("01-01-"+year);
+        fromDateEtxt.setText("01-01-" + year);
         Calendar cal = Calendar.getInstance();
         CharSequence output = DateFormat.format("dd-MM-yyyy", cal);
         String[] VarDateVal = (String.valueOf(output).split("-"));
         int day = Integer.valueOf(VarDateVal[0]);
-        int month =  Integer.valueOf(VarDateVal[1]);
-        if (month < 10){
-            if (day<10){
-                toDateEtxt.setText("0"+day+"-0"+month+"-"+year);
-            }else{
-                toDateEtxt.setText(day+"-0"+month+"-"+year);
+        int month = Integer.valueOf(VarDateVal[1]);
+        if (month < 10) {
+            if (day < 10) {
+                toDateEtxt.setText("0" + day + "-0" + month + "-" + year);
+            } else {
+                toDateEtxt.setText(day + "-0" + month + "-" + year);
             }
-        }else{
-            if (day<10){
-                toDateEtxt.setText("0"+day+"-"+month+"-"+year);
-            }else{
-                toDateEtxt.setText(day+"-"+month+"-"+year);
+        } else {
+            if (day < 10) {
+                toDateEtxt.setText("0" + day + "-" + month + "-" + year);
+            } else {
+                toDateEtxt.setText(day + "-" + month + "-" + year);
             }
         }
         varFromDate = fromDateEtxt.getText().toString();
         varToDate = toDateEtxt.getText().toString();
     }
+
     public void callDate(View view) {
-        if(view == fromDateEtxt) {
+        if (view == fromDateEtxt) {
             fromDatePickerDialog.show();
-        } else if(view == toDateEtxt) {
+        } else if (view == toDateEtxt) {
             toDatePickerDialog.show();
         }
     }
-    public void SearchOrders(View v){
-        final CheckBox chkLate = (CheckBox)findViewById(R.id.chkGetLate);
+
+    public void SearchOrders(View v) {
+        final CheckBox chkLate = (CheckBox) findViewById(R.id.chkGetLate);
         final CheckBox chkQtyNotGood = (CheckBox) findViewById(R.id.chkGetNotGoodQty);
-        final CheckBox chkItemNotGood = (CheckBox)findViewById(R.id.chkGetNotGoodItem);
-        if (chkLate.isChecked()){
+        final CheckBox chkItemNotGood = (CheckBox) findViewById(R.id.chkGetNotGoodItem);
+        if (chkLate.isChecked()) {
             VarIsLate = "1";
-        }else{
+        } else {
             VarIsLate = "0";
         }
-        if (chkQtyNotGood.isChecked()){
+        if (chkQtyNotGood.isChecked()) {
             VarIsQtyNotGood = "1";
-        }else{
+        } else {
             VarIsQtyNotGood = "0";
         }
-        if (chkItemNotGood.isChecked()){
+        if (chkItemNotGood.isChecked()) {
             VarIsItemNotGood = "1";
-        }else{
+        } else {
             VarIsItemNotGood = "0";
         }
         RatingBar simpleRatingBar = (RatingBar) findViewById(R.id.repRatingBar);
         VarRate = String.valueOf(Math.round(simpleRatingBar.getRating()));
-        ImageView imgCurrentSearch = (ImageView)findViewById(R.id.imgCurrentSearch);
+        ImageView imgCurrentSearch = (ImageView) findViewById(R.id.imgCurrentSearch);
         imgCurrentSearch.setVisibility(View.VISIBLE);
         new GetSearchResult().execute();
     }
-    public void OpenDetails(View v){
+
+    public void OpenDetails(View v) {
         ImageView btn = ((ImageView) v);
         final String[] cuurentValues = btn.getTag().toString().split(",&,");
 
@@ -213,33 +223,54 @@ public class RatingReport extends AppCompatActivity {
         Window window = RatingReport.this.getWindow();
         window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
 
-        LayoutInflater inflater = (LayoutInflater)RatingReport.this.getSystemService(RatingReport.this.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) RatingReport.this.getSystemService(RatingReport.this.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.search_info_dialog, null);
-        layout.setMinimumWidth((int)(displayRectangle.width() * 0.9f));
-        layout.setMinimumHeight((int)(displayRectangle.height() * 0.4f));
+        layout.setMinimumWidth((int) (displayRectangle.width() * 0.9f));
+        layout.setMinimumHeight((int) (displayRectangle.height() * 0.4f));
         dialog.setContentView(layout);
         TextView txtNotes = (TextView) dialog.findViewById(R.id.txtDNote);
         TextView txtDLate = (TextView) dialog.findViewById(R.id.txtDLate);
         TextView txtDQNG = (TextView) dialog.findViewById(R.id.txtDQNG);
         TextView txtDING = (TextView) dialog.findViewById(R.id.txtDING);
         txtNotes.setText(cuurentValues[0]);
-        if (cuurentValues[1].equals("True")){
-            txtDLate.setText("نعم");
-        }else{
-            txtDLate.setText("لا");
-        }
-        if (cuurentValues[2].equals("True")){
-            txtDQNG.setText("نعم");
-        }else{
-            txtDQNG.setText("لا");
-        }
-        if (cuurentValues[3].equals("True")){
-            txtDING.setText("نعم");
-        }else{
-            txtDING.setText("لا");
+        Locale locale = Locale.getDefault();
+        String language = String.valueOf(locale);
+        if (language.contains("en")) {
+            if (cuurentValues[1].equals("True")) {
+                txtDLate.setText("True");
+            } else {
+                txtDLate.setText("False");
+            }
+            if (cuurentValues[2].equals("True")) {
+                txtDQNG.setText("True");
+            } else {
+                txtDQNG.setText("False");
+            }
+            if (cuurentValues[3].equals("True")) {
+                txtDING.setText("True");
+            } else {
+                txtDING.setText("False");
+            }
+        } else {
+            if (cuurentValues[1].equals("True")) {
+                txtDLate.setText("نعم");
+            } else {
+                txtDLate.setText("لا");
+            }
+            if (cuurentValues[2].equals("True")) {
+                txtDQNG.setText("نعم");
+            } else {
+                txtDQNG.setText("لا");
+            }
+            if (cuurentValues[3].equals("True")) {
+                txtDING.setText("نعم");
+            } else {
+                txtDING.setText("لا");
+            }
         }
         dialog.show();
     }
+
     class GetAllCustomerTask extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
@@ -268,13 +299,13 @@ public class RatingReport extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Spinner ddlAllCustomers = (Spinner)findViewById(R.id.spCustomers);
+            Spinner ddlAllCustomers = (Spinner) findViewById(R.id.spCustomers);
             List<StringWithTag> AllCustomers = new ArrayList<StringWithTag>();
             AllCustomers.add(new StringWithTag("جميع العملاء", "0"));
-            for(int i=0;i<responseObject.getPropertyCount();i++){
-                String [] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
-                if (reponseArrayString.length == 3){
-                    AllCustomers.add(new StringWithTag(reponseArrayString[1].toString(),reponseArrayString[2].toString()));
+            for (int i = 0; i < responseObject.getPropertyCount(); i++) {
+                String[] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
+                if (reponseArrayString.length == 3) {
+                    AllCustomers.add(new StringWithTag(reponseArrayString[1].toString(), reponseArrayString[2].toString()));
                 }
             }
             ArrayAdapter<StringWithTag> spLocationAdapter = new ArrayAdapter<StringWithTag>(RatingReport.this, android.R.layout.simple_spinner_dropdown_item, AllCustomers);
@@ -292,6 +323,7 @@ public class RatingReport extends AppCompatActivity {
 
         }
     }
+
     class GetSearchResult extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
@@ -329,14 +361,14 @@ public class RatingReport extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            ListView listView=(ListView)findViewById(R.id.lvSearchResults);
-            list=new ArrayList<HashMap<String,String>>();
-            ListViewAdaptersSearch adapter=new ListViewAdaptersSearch(RatingReport.this, list);
+            ListView listView = (ListView) findViewById(R.id.lvSearchResults);
+            list = new ArrayList<HashMap<String, String>>();
+            ListViewAdaptersSearch adapter = new ListViewAdaptersSearch(RatingReport.this, list);
             listView.setAdapter(adapter);
 
-            for(int i=0;i<responseObject.getPropertyCount();i++){
-                String [] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
-                HashMap<String,String> temp=new HashMap<String, String>();
+            for (int i = 0; i < responseObject.getPropertyCount(); i++) {
+                String[] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
+                HashMap<String, String> temp = new HashMap<String, String>();
                 int count = reponseArrayString.length;
                 temp.put(CUS_FIRST_COLUMN, reponseArrayString[0]);
                 temp.put(CUS_SECOND_COLUMN, reponseArrayString[1]);
@@ -348,9 +380,9 @@ public class RatingReport extends AppCompatActivity {
                 list.add(temp);
             }
 
-            adapter=new ListViewAdaptersSearch(RatingReport.this, list);
+            adapter = new ListViewAdaptersSearch(RatingReport.this, list);
             listView.setAdapter(adapter);
-            ImageView imgCurrentSearch = (ImageView)findViewById(R.id.imgCurrentSearch);
+            ImageView imgCurrentSearch = (ImageView) findViewById(R.id.imgCurrentSearch);
             imgCurrentSearch.setVisibility(View.INVISIBLE);
         }
 
@@ -363,5 +395,17 @@ public class RatingReport extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
 
         }
+    }
+
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
     }
 }

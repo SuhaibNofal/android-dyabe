@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/new_order_scroll"
+    >
+
+    <RelativeLayout
+        android:id="@+id/content_new_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context="com.app.nevada.nevadaapp.NewOrder"
+        tools:showIn="@layout/activity_new_order">
+
+        <TextView
+            android:id="@+id/lblNewOrder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="طلبية جديدة"
+            android:textColor="#2a6496"
+            android:textSize="25sp"
+            android:textStyle="normal|bold"
+            android:layout_marginTop="20dp"
+            android:gravity="center" />
+
+        <RelativeLayout
+            android:id="@+id/InfoLabelsLayout"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/lblNewOrder"
+
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            >
+            <TextView
+                android:id="@+id/lblItemName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/subject"
+                android:textColor="#2a6496"
+                android:textSize="15sp"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="20dp"
+                android:gravity="right" />
+
+            <TextView
+                android:id="@+id/lblItemDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date_newOrder"
+                android:textColor="#2a6496"
+                android:textSize="15sp"
+                android:layout_below="@+id/lblItemName"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="25dp"
+                android:gravity="right" />
+
+            <TextView
+                android:id="@+id/lblItemTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="وقت التحميل"
+                android:textColor="#2a6496"
+                android:visibility="gone"
+                android:textSize="15sp"
+                android:layout_below="@+id/lblItemDate"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="30dp"
+                android:gravity="right" />
+            <TextView
+                android:id="@+id/lblItemLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/unloading_station"
+                android:textColor="#2a6496"
+                android:textSize="15sp"
+                android:layout_below="@+id/lblItemTime"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="30dp"
+                android:gravity="right" />
+
+            <TextView
+                android:id="@+id/lblOrderDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/booking_date"
+                android:textColor="#2a6496"
+                android:textSize="15sp"
+                android:layout_below="@+id/lblItemLocation"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="30dp"
+                android:gravity="right" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/InfodataLayout"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblNewOrder"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            >
+
+            <Spinner
+                android:id="@+id/spItemName"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:textColor="#f4383e"
+                android:background="@drawable/sp_arrow"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:spinnerMode="dropdown"/>
+
+
+
+            <EditText
+                android:id="@+id/etItemDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#f4383e"
+                android:background="@drawable/border_new_order"
+                android:textSize="15sp"
+                android:layout_below="@+id/spItemName"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp"
+                android:onClick="callDate"
+                android:gravity="center" />
+
+            <EditText
+                android:id="@+id/etItemTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#f4383e"
+                android:background="@drawable/border_new_order"
+                android:textSize="15sp"
+                android:visibility="gone"
+                android:inputType="number"
+                android:layout_below="@+id/etItemDate"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center" />
+            <Spinner
+                android:id="@+id/spLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:textColor="#f4383e"
+                android:layout_below="@+id/etItemTime"
+                android:background="@drawable/sp_arrow"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:spinnerMode="dropdown"/>
+
+
+            <TextView
+                android:id="@+id/etOrderDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#f4383e"
+                android:layout_below="@+id/spLocation"
+                android:background="@drawable/border_new_order"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/listAramco"
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/InfodataLayout">
+            <TextView
+                android:id="@+id/lblarabco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_new_order"
+                android:textColor="#2a6496"
+                android:textSize="15sp"
+                android:textStyle="normal|bold"
+                android:layout_marginTop="20dp"
+                android:gravity="right" />
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="40dp"
+                android:id="@+id/lstArabcoHeader"
+                android:background="@drawable/border_set">
+                <TextView
+                    android:id="@+id/txtAramcoQty"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:text="@string/quantity"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/txtAramcoItem"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:text="@string/the_expected_time"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#ffffff"
+                    android:layout_weight="2"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/txtAramcoNo"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:text="@string/Order_number"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+            <ListView
+                android:id="@+id/lvAramcoOrders"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignParentLeft="true"
+                android:textColor="#33b5e5"
+                android:choiceMode="singleChoice"
+                android:listSelector="@drawable/border_set"
+                android:background="#181abc9c"
+                android:textStyle="bold"
+                android:layout_marginTop="80dp">
+            </ListView>
+
+        </RelativeLayout>
+
+        <Button style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bu_select"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/SetOrder"
+            android:background="@drawable/border_set"
+            android:layout_below="@+id/listAramco"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:onClick="setOrder"
+            android:enabled="true" />
+    </RelativeLayout>
+
+
+
+
+
+</ScrollView>

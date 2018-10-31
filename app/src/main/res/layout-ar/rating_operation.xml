@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layoutDirection="ltr"
+    >
+
+
+    <RatingBar
+        android:id="@+id/simpleRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:stepSize="1"
+        android:theme="@style/RatingBar" />
+
+    <EditText
+        android:id="@+id/ratingMessage"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:hint="@string/note_rating"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CFC6C8"
+            android:text="وقت الوصول"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CFC6C8"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:text="تعامل السائق"
+            android:textColor="@color/colorPrimaryDark"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CFC6C8"
+            android:text="مظهر السائق"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:id="@+id/Access_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:textDirection="rtl"
+            android:layout_weight=".6"
+
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/inthesametime"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="في الوقت المحدد"
+
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/latesome"
+                android:drawableRight="@drawable/radio"
+                android:text="تاخر قليلا "
+                android:drawablePadding="10dp"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/late"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="تاخر كثيرا"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/dealing_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:textDirection="rtl"
+            android:layout_weight=".75"
+
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/dealing_good"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="لائق"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableRight="@drawable/radio"
+                android:text="حسن"
+                android:id="@+id/dealing_goodMiddel"
+                android:drawablePadding="10dp"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="غير لائق"
+                android:textSize="@dimen/textSize"
+                android:id="@+id/dealing_not_good"
+
+                android:textColor="@color/colorPrimaryDark" />
+
+
+
+        </RadioGroup>
+
+
+
+
+        <RadioGroup
+            android:id="@+id/View_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight=".75"
+            android:orientation="vertical"
+            android:textDirection="rtl"
+
+            >
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/view_good"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="لائق"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/view_not_good"
+                android:drawableRight="@drawable/radio"
+                android:text="غير لائق "
+                android:drawablePadding="10dp"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:id="@+id/btnRate"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:enabled="true"
+        android:gravity="center"
+        android:onClick="UpdateFinished"
+        android:text="تقييم"
+        android:background="@drawable/corners_border"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+</LinearLayout>

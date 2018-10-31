@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/side_nav_bar"
     android:fitsSystemWindows="true"
+
     tools:context="com.app.nevada.nevadaapp.NewOrder">
 
 
