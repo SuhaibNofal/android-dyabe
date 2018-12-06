@@ -147,7 +147,7 @@
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/mainUserLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -395,7 +395,7 @@
         android:id="@+id/mainDriverLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout
             android:id="@+id/mainDriverInfoLayout"

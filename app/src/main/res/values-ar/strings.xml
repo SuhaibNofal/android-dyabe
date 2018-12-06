@@ -170,7 +170,21 @@
 
     <string name="enter">دخول</string>
 
+    //translate activity_account_sub_customer
+    <string name="Balance_Transferred_To_Accounting">الرصيد المرحل للمالية</string>
+    <string name="Closed_Work_Orders">اوامر العمل المغلقة</string>
+    <string name="Work_orders">اوامر العمل</string>
+    <string name="End_Balance">الرصيد النهائي</string>
+    <string name="the_details">التفاصيل</string>
+    <string name="Balance_Transferred">الرصيد المرحل للمالية</string>
 
+    //translate colsed_order_work
+    <string name="station_name">اسم المحطة</string>
+
+    //translate drawinsin
+    <string name="save">تخزين</string>
+    <string name="close">الغاء</string>
+    <string name="drawin">لقد استلمت الطلبية كاملة حسب المطلوب</string>
 
 
 </resources>

@@ -8,8 +8,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.widget.Toast;
@@ -24,25 +26,26 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-public class MyReceiverCustomer extends WakefulBroadcastReceiver {
+public class MyReceiverCustomer extends BroadcastReceiver {
     private static String VarCustomerId = "";
     private String VarOrderNumber = "";
     private String VarStatus = "";
     private NotificationManager notificationManager;
     SoapObject responseObject;
     Context context;
-
-
+    SharedPreferences sharedPreferences;
+    final Handler haCustomer = new Handler();
+    Runnable VarRunnableCustomer;
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
 
-
-        String getintent = intent.getStringExtra("TWO_TIME");
-
-
+        sharedPreferences = context.getSharedPreferences("data", 0);
+        VarCustomerId = sharedPreferences.getString("VarCustomerId", "null");
+        /** last code to show notification*/
+        /*String getintent = intent.getStringExtra("TWO_TIME");
         if (getintent.equals(VarCustomerId)) {
             new getCustOrder().execute();
             Toast.makeText(context, "in ui", Toast.LENGTH_SHORT).show();
@@ -53,28 +56,35 @@ public class MyReceiverCustomer extends WakefulBroadcastReceiver {
             }
             //Toast.makeText(context, "in2 ui", Toast.LENGTH_SHORT).show();
             //CancelAlarm1(context);
-        }
+        }*/
+        haCustomer.postDelayed(VarRunnableCustomer = new Runnable() {
+            @Override
+            public void run() {
+                //Toast.makeText(context, "D", Toast.LENGTH_SHORT).show();
+                new getCustOrder().execute();
+                haCustomer.postDelayed(this, 1000 * 20);
+            }
+        }, 1000 * 20);
+
 
     }
 
 
     public void setAlarm1(Context context, String CustomerId) {
-        this.VarCustomerId = CustomerId;
-
         Intent intent = new Intent(context, MyReceiverCustomer.class);
-        intent.putExtra("TWO_TIME", CustomerId);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 2, intent, intent.FILL_IN_DATA);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am1 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        //After after 5 seconds
-        am1.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), 1000 * 5, pi);
+        //After after 1 minute
+        am1.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1*60*1000 , pi);
 
     }
 
     public void CancelAlarm1(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, MyReceiverCustomer.class);
-        PendingIntent sender = PendingIntent.getBroadcast(context, 2, intent, intent.FILL_IN_DATA);
-        alarmManager.cancel(sender);
+        PendingIntent sender = PendingIntent.getBroadcast(context, 2, intent, PendingIntent.FLAG_NO_CREATE);
+        if (sender != null){
+            alarmManager.cancel(sender);}
     }
 
     public void sendnotification(Context context) {
@@ -84,7 +94,7 @@ public class MyReceiverCustomer extends WakefulBroadcastReceiver {
         ii.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         mBuilder.setAutoCancel(true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, ii, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, ii, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
@@ -166,7 +176,7 @@ public class MyReceiverCustomer extends WakefulBroadcastReceiver {
                     }
                 }
             } else {
-                CancelAlarm1(context);
+                //CancelAlarm1(context);
 
             }
 

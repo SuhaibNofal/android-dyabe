@@ -79,7 +79,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
 //54:06:74:05:4A:65:D3:EB:76:73:11:4D:9D:60:AF:DE:C8:E9:98:B4
 
     Context context;
-     private GoogleMap mMap;
+    private GoogleMap mMap;
     SoapObject responseObject;
     String XYLocation;
     String VarOrderNo = "";
@@ -95,7 +95,8 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
     double CustLatData = 0;
     int VarTrafficVisable = 0;
     String Vardelevery_not_done = "0";
-//String id =
+    String language = "";
+
     public CurrentCustomerLocation() {
         this.context = CurrentCustomerLocation.this;
     }
@@ -107,7 +108,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
         Intent intent = getIntent();
         XYLocation = intent.getStringExtra("location");
 
-
+        language = intent.getStringExtra("lang");
         String[] separated = XYLocation.split(",");
         VarOrderNo = separated[3];
         VarIsOnRoad = Boolean.parseBoolean(separated[5]);
@@ -115,11 +116,11 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
         VarCustName = separated[2];
         if (VarIsOnRoad) {
             Button btn = (Button) findViewById(R.id.btnStartTrip);
-            Locale local = Locale.getDefault();
-            String Languge = String.valueOf(local);
-            if(Languge.contains("en")){
+
+
+            if (language.contains("en")) {
                 btn.setText("    Access     ");
-            }else{
+            } else {
                 btn.setText("    وصول     ");
             }
 
@@ -128,9 +129,9 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
             Button btn = (Button) findViewById(R.id.btnStartTrip);
             Locale local = Locale.getDefault();
             String Languge = String.valueOf(local);
-            if(Languge.contains("en")){
+            if (Languge.contains("en")) {
                 btn.setText("    start     ");
-            }else{
+            } else {
                 btn.setText("    ابدأ     ");
             }
 
@@ -155,7 +156,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
         if (ActivityCompat.checkSelfPermission(CurrentCustomerLocation.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CurrentCustomerLocation.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(CurrentCustomerLocation.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-            Log.d("mMap  ","::Map ready");
+            Log.d("mMap  ", "::Map ready");
         } else {
 
             //Toast.makeText(CurrentCustomerLocation.this,"2", Toast.LENGTH_SHORT).show();
@@ -189,7 +190,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
             //Toast.makeText(CurrentCustomerLocation.this,"6", Toast.LENGTH_SHORT).show();
             try {
                 String languageToLoad = "ar"; // your language
-                Locale locale = new Locale(languageToLoad);
+                Locale locale = new Locale(language);
 
                 Geocoder geo = new Geocoder(this.getApplicationContext(), locale);
                 List<android.location.Address> addresses = geo.getFromLocation(CustLongData, CustLatData, 1);
@@ -199,7 +200,13 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
                     if (addresses.size() > 0) {
                         VarAreaName = addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() + ", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
                         TextView btn = (TextView) findViewById(R.id.txtCustomerLocation);
-                        btn.setText("موقع العميل : " + VarAreaName);
+                        if (language.equals("en")) {
+                            btn.setGravity(Gravity.LEFT);
+                            btn.setText("Customer Location " + VarAreaName);
+                        } else {
+                            btn.setGravity(Gravity.RIGHT);
+                            btn.setText("موقع العميل : " + VarAreaName);
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -247,7 +254,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
                     //Toast.makeText(CurrentCustomerLocation.this,"6", Toast.LENGTH_SHORT).show();
                     try {
                         String languageToLoad = "ar"; // your language
-                        Locale locale = new Locale(languageToLoad);
+                        Locale locale = new Locale(language);
 
                         Geocoder geo = new Geocoder(this.getApplicationContext(), locale);
                         List<android.location.Address> addresses = geo.getFromLocation(CustLongData, CustLatData, 1);
@@ -257,7 +264,14 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
                             if (addresses.size() > 0) {
                                 VarAreaName = addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() + ", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
                                 TextView btn = (TextView) findViewById(R.id.txtCustomerLocation);
-                                btn.setText("موقع العميل : " + VarAreaName);
+                                if (language.equals("en")) {
+                                    btn.setGravity(Gravity.LEFT);
+                                    btn.setText("Customer Location " + VarAreaName);
+                                } else {
+                                    btn.setGravity(Gravity.RIGHT);
+                                    btn.setText("موقع العميل : " + VarAreaName);
+                                }
+
                             }
                         }
                     } catch (IOException e) {
@@ -269,7 +283,7 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                   // Toast.makeText(this,"ddd",Toast.LENGTH_LONG).show();
+                    // Toast.makeText(this,"ddd",Toast.LENGTH_LONG).show();
                 }
 
                 return;
@@ -278,22 +292,18 @@ public class CurrentCustomerLocation extends FragmentActivity implements OnMapRe
     }
 
 
-
-
     void chicpermision() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{
                         Manifest.permission.ACCESS_FINE_LOCATION
                 }, 0);
-return;
+                return;
             }
         }
         //GetLocation();
 
     }
-
-
 
 
     public void GoToCustomerLocation(View v) {
@@ -309,7 +319,7 @@ return;
         LocationManager CurrentLocation = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener currentLocationListener = new MyLocationListener();
         if (ActivityCompat.checkSelfPermission(CurrentCustomerLocation.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CurrentCustomerLocation.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      Toast.makeText(this,"suha",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "suha", Toast.LENGTH_LONG).show();
         }
         //Toast.makeText(CurrentCustomerLocation.this,"2", Toast.LENGTH_SHORT).show();
         CurrentLocation.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, currentLocationListener);
@@ -340,7 +350,7 @@ return;
         downloadTask.execute(url);
         try {
             String languageToLoad = "ar"; // your language
-            Locale locale = new Locale(languageToLoad);
+            Locale locale = new Locale(language);
 
             Geocoder geo = new Geocoder(this.getApplicationContext(), locale);
             List<android.location.Address> addresses = geo.getFromLocation(CustLongData, CustLatData, 1);
@@ -350,7 +360,13 @@ return;
                 if (addresses.size() > 0) {
                     VarAreaName = addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() + ", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName();
                     TextView btn = (TextView) findViewById(R.id.txtCustomerLocation);
-                    btn.setText("موقع العميل : " + VarAreaName);
+                    if (language.equals("en")) {
+                        btn.setGravity(Gravity.LEFT);
+                        btn.setText("Customer Location " + VarAreaName);
+                    } else {
+                        btn.setGravity(Gravity.RIGHT);
+                        btn.setText("موقع العميل : " + VarAreaName);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -380,7 +396,7 @@ return;
 
     public void gotogoogleMap(View view) {
         Toast.makeText(this, "hellow", Toast.LENGTH_SHORT).show();
-        String uri = String.format(Locale.ENGLISH,"geo:%f,%f",CustLongData,CustLatData);
+        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", CustLongData, CustLatData);
       /* Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("http://maps.google.com/maps?saddr="+CurrLatData+","+CurrLongData+"&daddr="+CustLatData+","+CustLongData));
         intent.setPackage("com.google.android.apps.maps");
@@ -394,13 +410,11 @@ return;
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);*/
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse("http://maps.google.com/maps?daddr="+CustLongData+","+CustLatData));
+                Uri.parse("http://maps.google.com/maps?daddr=" + CustLongData + "," + CustLatData));
         startActivity(intent);
     }
 
     class MyLocationListener implements LocationListener {
-
-
 
 
         @Override
@@ -437,9 +451,6 @@ return;
     }
 
 
-
-
-
     public void TurnGbsOnAlert() {
         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
@@ -453,7 +464,7 @@ return;
                     .snippet(snippet));
         } else {
             Bitmap b = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.fuel);
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 50, 50, false);
             return mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latitude, longitude))
                     .title(title)
@@ -467,29 +478,41 @@ return;
             AlertDialog.Builder builder = new AlertDialog.Builder(CurrentCustomerLocation.this);
 
             TextView title = new TextView(this);
+            if (language.equals("en")){
+                title.setText("Submit");
+            }else{ title.setText("تأكيد");}
 
-            title.setText("تأكيد");
             title.setBackgroundColor(Color.DKGRAY);
             title.setPadding(10, 10, 10, 10);
             title.setGravity(Gravity.RIGHT);
             title.setTextColor(Color.WHITE);
             title.setTextSize(20);
             builder.setCustomTitle(title);
-            builder.setMessage("تم الوصول الى موقع العميل وسيتم بدء التفريغ ؟");
+            String positiveText = "";
+            String negativeText ="";
+            if (language.equals("en")) {
+                builder.setMessage("Access to the client site and you will start unloading?");
+                 positiveText = "yes";
+                 negativeText = "NO";
+            }else{
+                builder.setMessage("تم الوصول الى موقع العميل وسيتم بدء التفريغ ؟");
 
-            String positiveText = "نعم";
+                positiveText = "نعم";
+                negativeText = "لا";
+            }
+
             builder.setPositiveButton(positiveText,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                           //startActivity(new Intent(getApplicationContext(),CurrentCustomerLocation.class));
+                            //startActivity(new Intent(getApplicationContext(),CurrentCustomerLocation.class));
                             new UpDateOrderStatus().execute();
-                           finish();
+                            finish();
                         }
 
                     });
 
-            String negativeText = "لا";
+
             builder.setNegativeButton(negativeText,
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -503,19 +526,29 @@ return;
             dialog.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(CurrentCustomerLocation.this);
-
+            String positiveText="";
+            String negativeText = "";
             TextView title = new TextView(this);
+            if (language.equals("en")){
+                title.setText("Submit");
+                builder.setMessage("The client will notice the start of the trip, to confirm?");
+                positiveText = "Yes";
+                negativeText = "Noا";
 
-            title.setText("تأكيد");
+            }else{
+                title.setText("تأكيد");
+                builder.setMessage("سوف يتم اشعار العميل ببدء الرحلة, تأكيد ؟");
+                positiveText = "نعم";
+                negativeText = "لا";
+            }
             title.setBackgroundColor(Color.DKGRAY);
             title.setPadding(10, 10, 10, 10);
             title.setGravity(Gravity.RIGHT);
             title.setTextColor(Color.WHITE);
             title.setTextSize(20);
             builder.setCustomTitle(title);
-            builder.setMessage("سوف يتم اشعار العميل ببدء الرحلة, تأكيد ؟");
 
-            String positiveText = "نعم";
+
             builder.setPositiveButton(positiveText,
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -530,7 +563,7 @@ return;
                         }
                     });
 
-            String negativeText = "لا";
+
             builder.setNegativeButton(negativeText,
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -554,7 +587,7 @@ return;
                 String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
                 String SOAP_ACTION = "http://37.224.24.195/UpdateOrderStatus";
                 SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-                request.addProperty("VarOrderNo",VarOrderNo);
+                request.addProperty("VarOrderNo", VarOrderNo);
                 request.addProperty("VarOrderStatus", 3);
 
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -777,7 +810,7 @@ return;
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
 
-            ArrayList<LatLng> points=null;
+            ArrayList<LatLng> points = null;
             PolylineOptions lineOptions = null;
             MarkerOptions markerOptions = new MarkerOptions();
 
@@ -785,7 +818,6 @@ return;
             for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList<>();
                 lineOptions = new PolylineOptions();
-
 
 
                 // Fetching i-th route
@@ -810,27 +842,28 @@ return;
 
             // Drawing polyline in the Google Map for the i-th route
             if (lineOptions != null) {
-               //mMap.clear();
+                //mMap.clear();
                 mMap.addPolyline(lineOptions);
 
                 createMarker(CurrLongData, CurrLatData, "الموقع الحالي", "", 1);
                 createMarker(CustLongData, CustLatData, "موقع العميل", VarCustName, 2);
-            }
-            else{
+            } else {
 
 
                 Log.d("onPostExecute", String.valueOf(result));
 
-                Toast.makeText(CurrentCustomerLocation.this,"Please Refresh Map",Toast.LENGTH_SHORT).show();
+                Toast.makeText(CurrentCustomerLocation.this, "Please Refresh Map", Toast.LENGTH_SHORT).show();
             }
         }
     }
-    Location oldLocation ;
-    class MyThred extends Thread{
+
+    Location oldLocation;
+
+    class MyThred extends Thread {
 
         @Override
-        public void run(){
-            while(true) {
+        public void run() {
+            while (true) {
                 try {
                     runOnUiThread(new Runnable() {
                         @Override

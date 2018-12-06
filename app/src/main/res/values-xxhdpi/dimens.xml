@@ -3,5 +3,8 @@
     <dimen name="textSize">18dp</dimen>
     <dimen name="customer_main_marginTop">10dp</dimen>
     <dimen name="date_of_accountdecleration">20dp</dimen>
+    <dimen name="neewordeer">50sp</dimen>
+    <dimen name="margintop">312px</dimen>
+
     <dimen name="view_daily_row_text_size">12sp</dimen>
 </resources>

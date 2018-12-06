@@ -53,7 +53,7 @@ public class CustomerInfo extends AppCompatActivity {
     private  String accChkMax  ="";
     private  String accMaxOk ="0";
     private  boolean isMaxOk = false;
-
+     String language;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +64,11 @@ public class CustomerInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
         VarCustomerNo = intent.getStringExtra("varCustNo");
-        String language= intent.getStringExtra("lang");
-        Locale  locale = new Locale(language);
+        language= intent.getStringExtra("lang");
+        final Locale  locale = new Locale(language);
         forceLocale(this,locale);
+
+
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -102,9 +104,11 @@ public class CustomerInfo extends AppCompatActivity {
                     {
                         totalVal = totalVal*-1;
                         txtViewObject.setTextColor(Color.RED);
-                        txtViewObject.setText( "(" + String.format("%.2f", totalVal) + ")");
+                        Locale locale2=new Locale("EN-US");
+                        txtViewObject.setText( "(" + String.format(locale2,"%.2f", totalVal) + ")");
                     }else{
-                        txtViewObject.setText( String.format("%.2f", totalVal));
+                        Locale locale1=new Locale("EN-US");
+                        txtViewObject.setText( String.format(locale1,"%.2f", totalVal));
                     }
                     txtViewObject = (TextView)findViewById(R.id.tab1_lblAccDateData);
                     txtViewObject.setText(accDate);
@@ -284,14 +288,15 @@ public class CustomerInfo extends AppCompatActivity {
                 TextView txtViewObject = (TextView)findViewById(R.id.tab1_lblAccNoData);
                 txtViewObject.setText(accNo);
                 TextView txtEndBal = (TextView)findViewById(R.id.tab1_lblAccFinalBalanceData);
+                Locale locale2=new Locale("EN-US");
                 double totalVal = Double.parseDouble(accEndBalance);
                 if (totalVal <0)
                 {
                     totalVal = totalVal*-1;
                     txtEndBal.setTextColor(Color.RED);
-                    txtEndBal.setText( "(" + String.format("%.2f", totalVal) + ")");
+                    txtEndBal.setText( "(" + String.format(locale2,"%.2f", totalVal) + ")");
                 }else{
-                    txtEndBal.setText( String.format("%.2f", totalVal));
+                    txtEndBal.setText( String.format(locale2,"%.2f", totalVal));
                 }
                 txtViewObject = (TextView)findViewById(R.id.tab1_lblAccDateData);
                 txtViewObject.setText(accDate);
@@ -369,9 +374,18 @@ public class CustomerInfo extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                Toast.makeText(CustomerInfo.this, "تم تحديث البيانات", Toast.LENGTH_SHORT).show();
+                if(language.equals("en")){
+                    Toast.makeText(CustomerInfo.this, "Data updated", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(CustomerInfo.this, "تم تحديث البيانات", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(CustomerInfo.this, "لم يتم تحديث البيانات", Toast.LENGTH_SHORT).show();
+                if(language.equals("en")){
+                    Toast.makeText(CustomerInfo.this, "Data is not updated", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(CustomerInfo.this, "لم يتم تحديث البيانات", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
 

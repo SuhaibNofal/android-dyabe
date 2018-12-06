@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,6 +35,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -88,9 +91,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private String accEndBalance = "";
     private String isAdmin = "0";
     private String CustId = "0";
+    String balanceWorkOrder="0";
+    String balanceClosedWorkOrder="0";
 
     String languageToLoad = "en";
-
+    private static final String TAG = "MyFirebaseIIDService";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,10 +103,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         setContentView(R.layout.activity_login);
+       // String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+//Displaying token on logcat
+        //Log.d(TAG, "Refreshed token: " + refreshedToken);
         final Spinner spinnerLanguge = (Spinner) findViewById(R.id.spinner_language);
 
         List<String> spinnerArray = new ArrayList<String>();
-        spinnerArray.add("Select Language(English)");
+
+        spinnerArray.add("Select Language");
         spinnerArray.add("English");
         spinnerArray.add("العربية");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, spinnerArray);
@@ -132,7 +141,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Intent intent = getIntent();
             String lang = intent.getStringExtra("button");
             if (lang.equals("en")) {
-
                 languageToLoad = "en";
                 spinnerArray.remove(0);
                 spinnerArray.add(0,"English");
@@ -494,6 +502,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String AccStartBalance = root.getProperty(4).toString();
                 String AccEndBalance = root.getProperty(5).toString();
                 String CuistId = root.getProperty(6).toString();
+                String BalanceWorkOrder=root.getProperty(7).toString();
+                String BalanceClosedWorkOrder=root.getProperty(8).toString();
                 if (AccName == "")
                     return false;
                 else {
@@ -505,6 +515,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     accEndBalance = AccEndBalance;
                     isAdmin = "0";
                     CustId = CuistId;
+                    balanceWorkOrder=BalanceWorkOrder;
+                    balanceClosedWorkOrder=BalanceClosedWorkOrder;
                     return true;
                 }
 
@@ -539,6 +551,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 myIntent.putExtra("isAdmin", isAdmin);
                 myIntent.putExtra("customerID", CustId);
                 myIntent.putExtra("lang", languageToLoad);
+                myIntent.putExtra("balanceWorkOrder",balanceWorkOrder);
+                myIntent.putExtra("balanceClosedWorkOrder",balanceClosedWorkOrder);
+
                 LoginActivity.this.startActivity(myIntent);
                 finish();
             } else {

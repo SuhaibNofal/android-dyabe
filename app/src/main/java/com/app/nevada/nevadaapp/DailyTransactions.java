@@ -1,6 +1,11 @@
 package com.app.nevada.nevadaapp;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.Loader;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,25 +50,29 @@ public class DailyTransactions extends AppCompatActivity {
 
     private DatePickerDialog fromDatePickerDialog;
     private DatePickerDialog toDatePickerDialog;
-    private String varFromDate ;
-    private String varToDate ;
+    private String varFromDate;
+    private String varToDate;
     private TextView fromDateEtxt;
     private TextView toDateEtxt;
     private SimpleDateFormat dateFormatter;
     String VarIsOnRoad = "0";
     String VarIsDriverApproved = "0";
     String VarIsApproved = "0";
+    String languges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_transactions);
-
+        Intent intent = getIntent();
+        languges = intent.getStringExtra("lang");
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-
+        Locale locale =new Locale(languges);
+         forceLocale(this,locale);
         findViewsById();
         setDateTimeField();
     }
+
     private void setDateTimeField() {
         Calendar newCalendar = Calendar.getInstance();
         fromDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -77,7 +86,7 @@ public class DailyTransactions extends AppCompatActivity {
                 varToDate = toDateEtxt.getText().toString();
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         toDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -90,83 +99,109 @@ public class DailyTransactions extends AppCompatActivity {
                 varToDate = toDateEtxt.getText().toString();
             }
 
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         varFromDate = fromDateEtxt.getText().toString();
         varToDate = toDateEtxt.getText().toString();
+        Locale locale = new Locale(languges);
+        forceLocale(this, locale);
     }
+
     private void findViewsById() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int VarThisMonth = calendar.get(Calendar.MONTH);
-        String ThisMonthFinal ="";
-        if (VarThisMonth < 10 ){
-            if (VarThisMonth ==9){ ThisMonthFinal = ""+String.valueOf(VarThisMonth+1);}else{
-            ThisMonthFinal = "0"+String.valueOf(VarThisMonth+1);}
-        }else{
-            ThisMonthFinal = String.valueOf(VarThisMonth+1);
+        String ThisMonthFinal = "";
+        if (VarThisMonth < 10) {
+            if (VarThisMonth == 9) {
+                ThisMonthFinal = "" + String.valueOf(VarThisMonth + 1);
+            } else {
+                ThisMonthFinal = "0" + String.valueOf(VarThisMonth + 1);
+            }
+        } else {
+            ThisMonthFinal = String.valueOf(VarThisMonth + 1);
         }
         fromDateEtxt = (TextView) findViewById(R.id.tranDateFromFilter);
         fromDateEtxt.setInputType(InputType.TYPE_NULL);
         toDateEtxt = (TextView) findViewById(R.id.tranDateToFilter);
         toDateEtxt.setInputType(InputType.TYPE_NULL);
-        fromDateEtxt.setText("01-" + ThisMonthFinal + "-"+year);
+        fromDateEtxt.setText("01-" + ThisMonthFinal + "-" + year);
         Calendar cal = Calendar.getInstance();
         CharSequence output = DateFormat.format("dd-MM-yyyy", cal);
         String[] VarDateVal = (String.valueOf(output).split("-"));
         int day = Integer.valueOf(VarDateVal[0]);
-        int month =  Integer.valueOf(VarDateVal[1]);
-        if (month < 10){
-            if (day<10){
-                toDateEtxt.setText("0"+day+"-0"+month+"-"+year);
-            }else{
-                toDateEtxt.setText(day+"-0"+month+"-"+year);
+        int month = Integer.valueOf(VarDateVal[1]);
+        if (month < 10) {
+            if (day < 10) {
+                toDateEtxt.setText("0" + day + "-0" + month + "-" + year);
+            } else {
+                toDateEtxt.setText(day + "-0" + month + "-" + year);
             }
-        }else{
-            if (day<10){
-                toDateEtxt.setText("0"+day+"-"+month+"-"+year);
-            }else{
-                toDateEtxt.setText(day+"-"+month+"-"+year);
+        } else {
+            if (day < 10) {
+                toDateEtxt.setText("0" + day + "-" + month + "-" + year);
+            } else {
+                toDateEtxt.setText(day + "-" + month + "-" + year);
             }
         }
         varFromDate = fromDateEtxt.getText().toString();
         varToDate = toDateEtxt.getText().toString();
     }
+
     public void callDate(View view) {
-        if(view == fromDateEtxt) {
+        String languageToLoad = "EN-US";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+        if (view == fromDateEtxt) {
             fromDatePickerDialog.show();
-        } else if(view == toDateEtxt) {
+        } else if (view == toDateEtxt) {
             toDatePickerDialog.show();
         }
     }
-    public void UpdateOnCheck(View v){
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+    }
+    @Override
+    protected void onDestroy() {
+        Locale locale =new Locale(languges);
+        forceLocale(this,locale);
+        super.onDestroy();
+    }
+    public void UpdateOnCheck(View v) {
         String id = v.getTag().toString();
         RadioButton rbAllOrders = (RadioButton) findViewById(R.id.rbAllOrders);
         RadioButton rbOnRoad = (RadioButton) findViewById(R.id.rbOnRoad);
         RadioButton rbApprovedDriver = (RadioButton) findViewById(R.id.rbApprovedDriver);
         RadioButton rbApprovedBoth = (RadioButton) findViewById(R.id.rbApprovedBoth);
-        if (id.equals("0")){
+        if (id.equals("0")) {
             rbOnRoad.setChecked(false);
             rbApprovedDriver.setChecked(false);
             rbApprovedBoth.setChecked(false);
             VarIsOnRoad = "0";
             VarIsDriverApproved = "0";
             VarIsApproved = "0";
-        }else if (id.equals("1")){
+        } else if (id.equals("1")) {
             rbAllOrders.setChecked(false);
             rbApprovedDriver.setChecked(false);
             rbApprovedBoth.setChecked(false);
             VarIsOnRoad = "1";
             VarIsDriverApproved = "0";
             VarIsApproved = "0";
-        }else if (id.equals("2")){
+        } else if (id.equals("2")) {
             rbAllOrders.setChecked(false);
             rbOnRoad.setChecked(false);
             rbApprovedBoth.setChecked(false);
             VarIsOnRoad = "0";
             VarIsDriverApproved = "1";
             VarIsApproved = "0";
-        }else if (id.equals("3")){
+        } else if (id.equals("3")) {
             rbAllOrders.setChecked(false);
             rbOnRoad.setChecked(false);
             rbApprovedDriver.setChecked(false);
@@ -175,11 +210,13 @@ public class DailyTransactions extends AppCompatActivity {
             VarIsApproved = "1";
         }
     }
-    public void SearchRepOrders(View v){
-        ImageView imgCurrentSearch = (ImageView)findViewById(R.id.imgCurrentOrderSearch);
+
+    public void SearchRepOrders(View v) {
+        ImageView imgCurrentSearch = (ImageView) findViewById(R.id.imgCurrentOrderSearch);
         imgCurrentSearch.setVisibility(View.VISIBLE);
         new GetSearchOrderResult().execute();
     }
+
     class GetSearchOrderResult extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
@@ -215,14 +252,14 @@ public class DailyTransactions extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            ListView listView=(ListView)findViewById(R.id.lvSearchOrdersResults);
-            list=new ArrayList<HashMap<String,String>>();
-            ListViewAdaptersOrdersReport adapter=new ListViewAdaptersOrdersReport(DailyTransactions.this, list);
+            ListView listView = (ListView) findViewById(R.id.lvSearchOrdersResults);
+            list = new ArrayList<HashMap<String, String>>();
+            ListViewAdaptersOrdersReport adapter = new ListViewAdaptersOrdersReport(DailyTransactions.this, list);
             listView.setAdapter(adapter);
 
-            for(int i=0;i<responseObject.getPropertyCount();i++){
-                String [] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
-                HashMap<String,String> temp=new HashMap<String, String>();
+            for (int i = 0; i < responseObject.getPropertyCount(); i++) {
+                String[] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
+                HashMap<String, String> temp = new HashMap<String, String>();
                 int count = reponseArrayString.length;
                 temp.put(CUS_FIRST_COLUMN, reponseArrayString[0]);
                 temp.put(CUS_SECOND_COLUMN, reponseArrayString[1]);
@@ -232,9 +269,9 @@ public class DailyTransactions extends AppCompatActivity {
                 list.add(temp);
             }
 
-            adapter=new ListViewAdaptersOrdersReport(DailyTransactions.this, list);
+            adapter = new ListViewAdaptersOrdersReport(DailyTransactions.this, list);
             listView.setAdapter(adapter);
-            ImageView imgCurrentSearch = (ImageView)findViewById(R.id.imgCurrentOrderSearch);
+            ImageView imgCurrentSearch = (ImageView) findViewById(R.id.imgCurrentOrderSearch);
             imgCurrentSearch.setVisibility(View.INVISIBLE);
         }
 
@@ -247,5 +284,17 @@ public class DailyTransactions extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
 
         }
+    }
+
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
     }
 }

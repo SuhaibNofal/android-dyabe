@@ -90,76 +90,235 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:gravity="right"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
         <TextView
-            android:id="@+id/txtGetLate"
-            android:layout_height="wrap_content"
-            android:layout_width="200dp"
-            android:text="الطلبيات المتأخرة"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
-        <CheckBox android:id="@+id/chkGetLate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:gravity="right"
-        android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#CFC6C8"
+            android:text="@string/arrival_time_rating"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_weight="1"
+            android:textStyle="bold"/>
         <TextView
-            android:id="@+id/txtGetNotGoodQty"
-            android:layout_height="wrap_content"
-            android:layout_width="200dp"
-            android:text="الطلبيات الغير مطابقة الكمية"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
-        <CheckBox android:id="@+id/chkGetNotGoodQty"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#CFC6C8"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:text="@string/handle_the_driver_rating"
+            android:textColor="@color/colorPrimaryDark"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CFC6C8"
+            android:text="@string/the_driver_form_rating"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"/>
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="right"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal"
+       >
+        <RadioGroup
+            android:id="@+id/Access_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:textDirection="rtl"
+            android:layout_weight=".6"
+
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/inthesametime"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="@string/on_time_rating"
+
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/latesome"
+                android:drawableRight="@drawable/radio"
+                android:text="@string/delayed_slightly_rating"
+                android:drawablePadding="10dp"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/late"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="@string/too_late"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/dealing_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:textDirection="rtl"
+            android:layout_weight=".75"
+
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/dealing_good"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="@string/seemly_rating"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableRight="@drawable/radio"
+                android:text="@string/fine_rating"
+                android:id="@+id/dealing_goodMiddel"
+                android:drawablePadding="10dp"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="@string/unseemly_rating"
+                android:textSize="@dimen/textSize"
+                android:id="@+id/dealing_not_good"
+
+                android:textColor="@color/colorPrimaryDark" />
+
+
+
+        </RadioGroup>
+
+
+
+
+        <RadioGroup
+            android:id="@+id/View_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight=".75"
+            android:orientation="vertical"
+            android:textDirection="rtl"
+
+            >
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/view_good"
+                android:drawableRight="@drawable/radio"
+                android:drawablePadding="10dp"
+                android:text="@string/seemly_rating"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:id="@+id/view_not_good"
+                android:drawableRight="@drawable/radio"
+                android:text="@string/unseemly_rating"
+                android:drawablePadding="10dp"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btndelete"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corners_border_small"
+            android:enabled="true"
+            android:gravity="center"
+            android:onClick="deleteSearsh"
+            android:text="@string/bu_cancl"
+            android:layout_margin="5dp"
+
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnRepSearch"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corners_border_small"
+            android:enabled="true"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:onClick="SearchOrders"
+            android:text="@string/search"
+            android:textSize="15sp"
+            android:textStyle="bold" />
         <ImageView
             android:id="@+id/imgCurrentSearch"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:visibility="gone"
             android:src="@drawable/current_search" />
-        <Button style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="بحث"
-            android:id="@+id/btnRepSearch"
-            android:background="@drawable/corners_border_small"
-            android:textSize="15sp"
-            android:layout_gravity="left"
-            android:textStyle="bold"
-            android:onClick="SearchOrders"
-            android:enabled="true" />
-        <TextView
-            android:id="@+id/txtGetNotGoodItem"
-            android:layout_height="wrap_content"
-            android:layout_width="200dp"
-            android:text="الطلبيات الغير مطابقة المادة"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"/>
-        <CheckBox android:id="@+id/chkGetNotGoodItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:id="@+id/headerLayout"
         android:layout_below="@+id/ltHeaderData"
         android:background="@drawable/border_set">
@@ -167,7 +326,7 @@
             android:id="@+id/tranDebt"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="معلومات"
+            android:text="@string/information"
             android:gravity="right"
             android:layout_gravity="center"
             android:layout_weight="0.5"
@@ -178,7 +337,7 @@
             android:id="@+id/tranCredit"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="التقييم"
+            android:text="@string/evaluation"
             android:gravity="right"
             android:layout_gravity="center"
             android:layout_weight="0.5"
@@ -189,10 +348,10 @@
             android:id="@+id/tranDate"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="اسم العميل"
+            android:text="@string/customer_name"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_weight="1.8"
             android:textColor="#ffffff"
             android:textStyle="bold"/>
         <TextView
@@ -200,7 +359,7 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="رقم الطلبية"
+            android:text= "@string/Order_number"
             android:gravity="center"
             android:layout_gravity="center"
             android:textColor="#ffffff"

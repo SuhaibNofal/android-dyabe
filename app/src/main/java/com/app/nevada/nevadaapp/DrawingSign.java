@@ -2,12 +2,14 @@ package com.app.nevada.nevadaapp;
 
 import android.Manifest;
 import android.app.Activity;
+
 import com.app.nevada.nevadaapp.views.*;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -45,9 +47,10 @@ DrawingSign extends Activity {
     private Button mClearButton;
     private Button mSaveButton;
     String VarOrderNo = "";
-    Context context ;
-    String VarCustID="";
-    private String filePath ="";
+    Context context;
+    String VarCustID = "";
+    private String filePath = "";
+    String languages = "";
 
     public DrawingSign() {
         this.context = DrawingSign.this;
@@ -56,20 +59,16 @@ DrawingSign extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String languageToLoad  = "EN-US";
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+
         verifyStoragePermissions(this);
         setContentView(R.layout.activity_drawing_sign);
 
         Intent intent = getIntent();
-        VarOrderNo=  intent.getStringExtra("OrderNo");
-        VarCustID =  intent.getStringExtra("CustID");
-
+        VarOrderNo = intent.getStringExtra("OrderNo");
+        VarCustID = intent.getStringExtra("CustID");
+        languages = intent.getStringExtra("lang");
+        Locale locale=new Locale(languages);
+        forceLocale(this,locale);
         mSignaturePad = (SignaturePad) findViewById(R.id.signature_pad);
         mSignaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
@@ -90,10 +89,9 @@ DrawingSign extends Activity {
         });
 
 
-
         mClearButton = (Button) findViewById(R.id.clear_button);
         mSaveButton = (Button) findViewById(R.id.save_button);
-final int R_per = 123;
+        final int R_per = 123;
         mClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +106,7 @@ final int R_per = 123;
 
                 Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
                 if (addJpgSignatureToGallery(signatureBitmap)) {
-                    filePath = getAlbumStorageDir("DeyabiSigns").getPath()+"/img"+VarOrderNo+".jpg";
+                    filePath = getAlbumStorageDir("DeyabiSigns").getPath() + "/img" + VarOrderNo + ".jpg";
                     new uploadImageTask().execute();
 
                 } else {
@@ -118,11 +116,12 @@ final int R_per = 123;
                 } else {
 
                 }
-                startActivity(new Intent(context,MainActivity.class));
+                startActivity(new Intent(context, MainActivity.class));
             }
         });
-        
+
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -160,7 +159,7 @@ final int R_per = 123;
     public boolean addJpgSignatureToGallery(Bitmap signature) {
         boolean result = false;
         try {
-            File photo = new File(getAlbumStorageDir("DeyabiSigns"),"img"+VarOrderNo+".jpg");
+            File photo = new File(getAlbumStorageDir("DeyabiSigns"), "img" + VarOrderNo + ".jpg");
 
             saveBitmapToJPG(signature, photo);
             scanMediaFile(photo);
@@ -217,16 +216,17 @@ final int R_per = 123;
         }
     }
 
-    public void UploadFile(){
+    public void UploadFile() {
         try {
             FileInputStream fstrm = new FileInputStream(filePath);
-            HttpFileUpload hfu = new HttpFileUpload("http://37.224.24.195/AndroidWS/fileup.aspx", VarCustID,VarOrderNo);
+            HttpFileUpload hfu = new HttpFileUpload("http://37.224.24.195/AndroidWS/fileup.aspx", VarCustID, VarOrderNo);
 
             hfu.Send_Now(fstrm);
 
         } catch (FileNotFoundException e) {
         }
     }
+
     class uploadImageTask extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
@@ -261,7 +261,11 @@ final int R_per = 123;
                     Log.e("-->", "file not Deleted :" + filePath);
                 }
             }
-
+            if(languages.contains("en")){
+                Toast.makeText(DrawingSign.this, "Signature stored", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(DrawingSign.this, "تم تخزين التوقيع", Toast.LENGTH_SHORT).show();
+            }
             Toast.makeText(DrawingSign.this, "تم تخزين التوقيع", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -276,5 +280,15 @@ final int R_per = 123;
 
         }
     }
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
 
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
+    }
 }

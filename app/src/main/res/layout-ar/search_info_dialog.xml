@@ -44,7 +44,7 @@
             android:id="@+id/lblDLate"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="تأخير : "
+            android:text="مظهر السائق : "
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -67,7 +67,7 @@
             android:id="@+id/lblDQNG"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="كمية غير مطابقة : "
+            android:text="تعامل السائق : "
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -90,7 +90,7 @@
             android:id="@+id/lblDING"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="مادة غير مطابقة : "
+            android:text="وقت الوصول : "
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
     </LinearLayout>

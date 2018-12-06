@@ -2,9 +2,11 @@ package com.app.nevada.nevadaapp;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -59,6 +61,7 @@ public class FinishedOrders extends AppCompatActivity {
     String VarAcces = "1";
     String Vardealing = "1";
     String VarViewDriver = "1";
+    String Languges ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,9 @@ public class FinishedOrders extends AppCompatActivity {
 
         Intent intent = getIntent();
         VarAccNo= intent.getStringExtra("acctNo");
+        Languges =intent.getStringExtra("lang");
+        Locale locale =new Locale(Languges);
+        forceLocale(this,locale);
 
         new GetFinishedOrders().execute();
     }
@@ -268,7 +274,7 @@ public class FinishedOrders extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId ){
-                        case  R.id.late:
+                        case R.id.late:
                             VarAcces = "3";
                             break;
                         case R.id.latesome:
@@ -288,7 +294,8 @@ public class FinishedOrders extends AppCompatActivity {
                             Vardealing = "2";
                             break;
                         case R.id.dealing_not_good:
-                            Vardealing="3";
+                            Vardealing = "3";
+                            break;
                         default:
                             Vardealing = "1";
                     }
@@ -479,6 +486,17 @@ public class FinishedOrders extends AppCompatActivity {
         protected void onProgressUpdate(Integer... values) {
 
         }
+    }
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
     }
 
 }

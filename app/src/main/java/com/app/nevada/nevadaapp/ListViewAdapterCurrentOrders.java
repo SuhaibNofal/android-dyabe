@@ -28,14 +28,15 @@ import static com.app.nevada.nevadaapp.Constants.LT_THIRD_COLUMN;
 public class ListViewAdapterCurrentOrders extends BaseAdapter {
 
     public ArrayList<HashMap<String, String>> list;
-    Locale  locale = Locale.getDefault();
-    String language= String.valueOf(locale);
+
+    String language;
     public Activity activity;
 
-    public ListViewAdapterCurrentOrders(Activity activity, ArrayList<HashMap<String, String>> list) {
+    public ListViewAdapterCurrentOrders(Activity activity, ArrayList<HashMap<String, String>> list,String lang) {
         super();
         this.activity = activity;
         this.list = list;
+        this.language=lang;
     }
 
     @Override
@@ -100,6 +101,7 @@ public class ListViewAdapterCurrentOrders extends BaseAdapter {
                     break;
             }
         } else if(!language.contains("en")){
+            mHolder.btnCusLocation.setTextSize(10);
             switch (String.valueOf(map.get("VarStatus"))) {
                 case "0":
                     mHolder.btnCusLocation.setText("بدء الرحلة");

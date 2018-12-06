@@ -5,4 +5,7 @@
     <dimen name="date_of_accountdecleration">20dp</dimen>
     <dimen name="linear_layout_customer_MarginTop">20dp</dimen>
     <dimen name="view_daily_row_text_size">12sp</dimen>
+<dimen name="neewordeer">5sp</dimen>
+    <dimen name="margintop">312px</dimen>
+
 </resources>

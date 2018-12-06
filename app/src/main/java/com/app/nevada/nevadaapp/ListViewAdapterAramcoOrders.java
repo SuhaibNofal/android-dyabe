@@ -65,7 +65,7 @@ public class ListViewAdapterAramcoOrders extends BaseAdapter {
         mHolder.txtAramcoNo.setText(map.get(AR_FIRST_COLUMN));
         mHolder.txtAramcoItem.setText(map.get(AR_SECOND_COLUMN));
         mHolder.txtAramcoQty.setText(map.get(AR_THIRD_COLUMN));
-        mHolder.txtAramcoNo.setTag(map.get(AR_FOURTH_COLUMN).concat(",").concat(map.get(AR_FIRST_COLUMN)).concat(",").concat(map.get(AR_SECOND_COLUMN).concat(",").concat(map.get(AR_THIRD_COLUMN))));
+        mHolder.txtAramcoNo.setTag(map.get(AR_FOURTH_COLUMN).concat(",").concat(map.get(AR_FIRST_COLUMN)).concat(",").concat(map.get(AR_SECOND_COLUMN)).concat(",").concat(map.get(AR_THIRD_COLUMN)).concat(",").concat(map.get("VarTimeOrder")));
         convertView.setTag(mHolder);
 
         return convertView;

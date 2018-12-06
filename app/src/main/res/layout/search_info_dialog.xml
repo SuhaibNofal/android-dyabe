@@ -40,7 +40,7 @@
             android:id="@+id/lblDLate"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Delay:"
+            android:text="Driver Form Rating :"
             android:layout_marginLeft="5dp"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
@@ -65,7 +65,7 @@
             android:id="@+id/lblDQNG"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Unmatched quantity:"
+            android:text="The style of the driver:"
             android:layout_marginLeft="5dp"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_marginLeft="5dp"
 
-            android:text="Material not matching:"
+            android:text="Arrival time:"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"/>
         <TextView

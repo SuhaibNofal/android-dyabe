@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WorkOrder"
+    android:orientation="vertical">
+<TextView
+android:id="@+id/activity_name_work"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:text="@string/Work_orders"
+    android:textColor="#2a6496"
+    android:textStyle="bold"
+    android:textSize="@dimen/textSize"
+    android:gravity="center"/>
+    <TextView
+        android:id="@+id/customer_name_workClosed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:layout_below="@+id/activity_name_work"
+        android:textColor="#2a6496"
+        android:textStyle="bold"
+        android:textSize="@dimen/textSize"
+        android:gravity="right"/>
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/customer_acc_number_closed"
+        android:textColor="#2a6496"
+        android:layout_below="@+id/customer_name_workClosed"
+        android:textStyle="bold"
+        android:textSize="@dimen/textSize"
+        android:gravity="left"/>
+   <LinearLayout
+       android:id="@+id/viewList_Linear_work"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/customer_acc_number_closed"
+       android:orientation="horizontal"
+       android:layout_marginTop="20dp"
+       android:background="#2a6496">
+
+       <TextView
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:gravity="center"
+           android:textColor="#FFFFFF"
+           android:textStyle="bold"
+           android:text="@string/upload_date_review"/>
+       <TextView
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:text="@string/station_name"
+           android:textColor="#FFFFFF"
+           android:textStyle="bold"
+           android:gravity="center"/>
+       <TextView
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="0.8"
+           android:textColor="#FFFFFF"
+           android:text="@string/Order_number"
+           android:textStyle="bold"
+           android:gravity="center"/>
+       <TextView
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="0.7"
+           android:textColor="#FFFFFF"
+           android:text="@string/debit"
+           android:textStyle="bold"
+           android:gravity="center"/>
+   </LinearLayout>
+       <ListView
+           android:id="@+id/list_work_order"
+           android:layout_width="match_parent"
+           android:textColor="#33b5e5"
+           android:layout_below="@+id/viewList_Linear_work"
+           android:textStyle="bold"
+           android:background="#181abc9c"
+           android:layout_height="match_parent">
+
+       </ListView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+
+        android:background="@drawable/border_set_opacity_low"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_balansein_Arabic"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_balansein_English"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000000"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/Number_balansein_Arabic"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Number_balansein_English"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000000"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

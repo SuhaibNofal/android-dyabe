@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
@@ -60,7 +61,12 @@ import static com.app.nevada.nevadaapp.Constants.AR_FIRST_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.AR_SECOND_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.AR_THIRD_COLUMN;
 import static com.app.nevada.nevadaapp.Constants.AR_FOURTH_COLUMN;
+import static com.app.nevada.nevadaapp.Constants.LT_FIRST_COLUMN;
+import static com.app.nevada.nevadaapp.Constants.LT_FOURTH_COLUMN;
+import static com.app.nevada.nevadaapp.Constants.LT_SECOND_COLUMN;
+import static com.app.nevada.nevadaapp.Constants.LT_THIRD_COLUMN;
 import static com.app.nevada.nevadaapp.R.drawable.first;
+import static com.app.nevada.nevadaapp.R.drawable.gradient_spinner;
 
 public class NewOrder extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> list;
@@ -84,21 +90,42 @@ public class NewOrder extends AppCompatActivity {
     private String VarTimeOrder = "";
     private String VarTotOrderItem = "";
     private String VarTotOrderTrans = "";
+    String Languges = "";
+
+    @Override
+    protected void onResume() {
+      /*  Locale locale =new Locale(Languges);
+        forceLocale(this,locale);*/
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Locale locale = new Locale(Languges);
+        forceLocale(this, locale);
+        super.onDestroy();
+        /*if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }*/
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Locale local = Locale.getDefault();
-        String language = String.valueOf(local);
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_new_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         Intent intent = getIntent();
         VarAccNo = intent.getStringExtra("acctNo");
-
+        Languges = intent.getStringExtra("lang");
+        Locale locale = new Locale(Languges);
+        forceLocale(this, locale);
         EditText etItemTime = (EditText) findViewById(R.id.etItemTime);
         etItemTime.setInputType(InputType.TYPE_NULL);
 
@@ -110,7 +137,7 @@ public class NewOrder extends AppCompatActivity {
         String[] items = new String[]{"الرجاء اختيار مادة", "بنزين 95", "بنزين 91", "ديزل", "زيت خام", "كايروسين"};
         String[] itemss = new String[]{"Please select subject", "Gasoline 95", "Gasoline 91", "diesel", "Crude Oil", "Kerosene"};
         ArrayAdapter<String> spItemsAdapter;
-        if (language.contains("en")) {
+        if (Languges.contains("en")) {
             spItemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, itemss);
 
         } else {
@@ -165,6 +192,7 @@ public class NewOrder extends AppCompatActivity {
                 if (VarItemNo > 0) {
                     if (VarDate != null) {
                         new GetAramcoTask().execute();
+                        new GetCurrentOrdersTask2().execute();
                     }
                 }
 
@@ -185,22 +213,33 @@ public class NewOrder extends AppCompatActivity {
         txtItemDate.setInputType(InputType.TYPE_NULL);
         txtOrderDate = (TextView) findViewById(R.id.etOrderDate);
         txtOrderDate.setInputType(InputType.TYPE_NULL);
+       // TextView textView3 = (TextView) findViewsById(R.id.OrdersReserved2);
 
         txtItemDate.setText("01-01-" + year);
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         CharSequence output = DateFormat.format("dd-MM-yyyy", cal);
         txtOrderDate.setText(output);
 
     }
 
     private void setDateTimeField() {
+       /* String languageToLoad  = "EN-US";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());*/
         Calendar newCalendar = Calendar.getInstance();
+
         fromDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(year, monthOfYear, dayOfMonth);
+                Calendar cal = Calendar.getInstance(Locale.US);
+                cal.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
+                // Toast.makeText(getApplicationContext(), String.valueOf(cal),Toast.LENGTH_SHORT).show();
                 CharSequence output = DateFormat.format("dd-MM-yyyy", cal);
+
                 cal.add(Calendar.DATE, 1);
                 Date selDate = getZeroTimeDate(cal.getTime());
                 Date nowDate = getZeroTimeDate(new Date());
@@ -211,9 +250,8 @@ public class NewOrder extends AppCompatActivity {
                     String tomm = sdf1.format(c.getTime());
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(NewOrder.this);
-                    Locale local = Locale.getDefault();
-                    String language = String.valueOf(local);
-                    if (language.contains("en")) {
+
+                    if (Languges.contains("en")) {
                         builder.setMessage("You can not select a date before" + tomm);
                     } else {
                         builder.setMessage("لا يمكنك اختيار تاريخ قبل  " + tomm);
@@ -222,6 +260,7 @@ public class NewOrder extends AppCompatActivity {
                     builder.setCancelable(false)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+
                                 }
                             });
                     AlertDialog alert = builder.create();
@@ -231,9 +270,8 @@ public class NewOrder extends AppCompatActivity {
                 txtItemDate.setText(output);
                 VarDate = txtItemDate.getText().toString();
                 if (VarItemNo == 0) {
-                    Locale local = Locale.getDefault();
-                    String language = String.valueOf(local);
-                    if (language.contains("en")) {
+
+                    if (Languges.contains("en")) {
                         Toast.makeText(NewOrder.this, "please select subject", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(NewOrder.this, "الرجاء اختيار مادة", Toast.LENGTH_SHORT).show();
@@ -250,12 +288,16 @@ public class NewOrder extends AppCompatActivity {
                     EditText etItemTime = (EditText) findViewById(R.id.etItemTime);
                     etItemTime.setText("");
                     new GetAramcoTask().execute();
+                    new GetCurrentOrdersTask2().execute();
+
                 }
             }
 
+
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
         fromDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-
+        Locale locale = new Locale(Languges);
+        forceLocale(this, locale);
 
     }
 
@@ -275,6 +317,8 @@ public class NewOrder extends AppCompatActivity {
     }
 
     public void setOrder(View View) {
+        Locale locale = new Locale(Languges);
+        forceLocale(this, locale);
         if (checkValid()) {
             new GetTotOrderTask().execute();
             new GettotOrderItem().execute();
@@ -285,9 +329,8 @@ public class NewOrder extends AppCompatActivity {
     public boolean checkValid() {
         boolean valid = true;
         if (VarItemNo == 0) {
-            Locale local = Locale.getDefault();
-            String language = String.valueOf(local);
-            if (language.contains("en")) {
+
+            if (Languges.contains("en")) {
                 Toast.makeText(NewOrder.this, "please select subject", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(NewOrder.this, "الرجاء اختيار مادة", Toast.LENGTH_SHORT).show();
@@ -304,9 +347,8 @@ public class NewOrder extends AppCompatActivity {
 
         }
         if (VarOrderNo == "N") {
-            Locale local = Locale.getDefault();
-            String language = String.valueOf(local);
-            if (language.contains("en")) {
+
+            if (Languges.contains("en")) {
                 Toast.makeText(NewOrder.this, "Please choose one of Aramco orders", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(NewOrder.this, "الرجاء اختيار واحدة من طلبيات ارامكو", Toast.LENGTH_SHORT).show();
@@ -317,9 +359,8 @@ public class NewOrder extends AppCompatActivity {
         Spinner ddLocation = (Spinner) findViewById(R.id.spLocation);
         Integer sel = ddLocation.getSelectedItemPosition();
         if (sel == 0) {
-            Locale local = Locale.getDefault();
-            String language = String.valueOf(local);
-            if (language.contains("en")) {
+
+            if (Languges.contains("en")) {
                 Toast.makeText(NewOrder.this, "Please select a dump station", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(NewOrder.this, "الرجاء اختيار محظة تفريغ", Toast.LENGTH_SHORT).show();
@@ -339,6 +380,13 @@ public class NewOrder extends AppCompatActivity {
     }
 
     public void callDate(View view) {
+        String languageToLoad = "EN-US";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         fromDatePickerDialog.show();
     }
 
@@ -421,6 +469,7 @@ public class NewOrder extends AppCompatActivity {
                 temp.put(AR_FOURTH_COLUMN, reponseArrayString1[7]);
                 temp.put("OrderType", reponseArrayString1[4]);
                 temp.put("VarTimeOrder", reponseArrayString1[6]);
+                // Toast.makeText(getApplicationContext(),reponseArrayString1[6],Toast.LENGTH_SHORT).show();
 
 
                 VarMaxNoOfOrders = Integer.parseInt(reponseArrayString1[10].toString());
@@ -431,9 +480,8 @@ public class NewOrder extends AppCompatActivity {
             if (!availableOrders) {
                 Button btnSetOrder = (Button) findViewById(R.id.SetOrder);
                 btnSetOrder.setEnabled(false);
-                Locale local = Locale.getDefault();
-                String language = String.valueOf(local);
-                if (language.contains("en")) {
+
+                if (Languges.contains("en")) {
                     btnSetOrder.setText("No requests available");
                 } else {
                     btnSetOrder.setText("لا يوجد طلبات متاحة");
@@ -442,9 +490,8 @@ public class NewOrder extends AppCompatActivity {
             } else if (VarTotNoOfOrders >= VarMaxNoOfOrders) {
                 Button btnSetOrder = (Button) findViewById(R.id.SetOrder);
                 btnSetOrder.setEnabled(false);
-                Locale local = Locale.getDefault();
-                String language = String.valueOf(local);
-                if (language.contains("en")) {
+
+                if (Languges.contains("en")) {
                     btnSetOrder.setText("You have exceeded the daily limit for daily orders, please check the administration");
                 } else {
                     btnSetOrder.setText("لقد تجاوزت الحد الاعلى للطلبيات اليومية, يرجى مراجعة الادارة");
@@ -453,9 +500,8 @@ public class NewOrder extends AppCompatActivity {
             } else {
                 Button btnSetOrder = (Button) findViewById(R.id.SetOrder);
                 btnSetOrder.setEnabled(true);
-                Locale local = Locale.getDefault();
-                String language = String.valueOf(local);
-                if (language.contains("en")) {
+
+                if (Languges.contains("en")) {
                     btnSetOrder.setText("Select");
                 } else {
                     btnSetOrder.setText("أطلب");
@@ -470,7 +516,7 @@ public class NewOrder extends AppCompatActivity {
                     TextView txtOrderNo = (TextView) view.findViewById(R.id.lblAramcoNo);
                     VarOrderNo = txtOrderNo.getText().toString();
                     String[] tagOrder = txtOrderNo.getTag().toString().split(",");
-                    ExpectedTime = tagOrder[0].toString();
+                    ExpectedTime = tagOrder[4].toString();
                     VarTimeOrder = tagOrder[2];
                     VarQuntityOrder = tagOrder[3];
                     String VarTime = txtOrderNo.getTag().toString();
@@ -541,9 +587,8 @@ public class NewOrder extends AppCompatActivity {
 
             Spinner ddLocation = (Spinner) findViewById(R.id.spLocation);
             List<StringWithTag> locations = new ArrayList<StringWithTag>();
-            Locale locale = Locale.getDefault();
-            String language = String.valueOf(locale);
-            if (language.contains("en")) {
+
+            if (Languges.contains("en")) {
                 locations.add(new StringWithTag("please select station", "0"));
 
             } else {
@@ -617,9 +662,8 @@ public class NewOrder extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             AlertDialog.Builder builder = new AlertDialog.Builder(NewOrder.this);
-            Locale local = Locale.getDefault();
-            String language = String.valueOf(local);
-            if (language.contains("en")) {
+
+            if (Languges.contains("en")) {
                 builder.setMessage("Your order has been successfully processed, thank you ");
             } else {
                 builder.setMessage("تمت عملية الطلب بنجاح, شكراً لك ");
@@ -797,6 +841,8 @@ public class NewOrder extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            Locale locale = new Locale(Languges);
+            forceLocale(getApplicationContext(), locale);
             VarTotOrderTrans = responseObject.getProperty(0).toString();
             final Dialog dialog = new Dialog(NewOrder.this);
             Rect displayRectangle = new Rect();
@@ -822,40 +868,51 @@ public class NewOrder extends AppCompatActivity {
             try {
                 orderNumber.setText(VarOrderNo);
                 timeExpected.setText(VarTimeOrder);
-                Locale locale = Locale.getDefault();
-                String language =String.valueOf(locale);
+
                 qantity.setText(VarQuntityOrder);
                 switch (reponseArrayString1[4]) {
                     case "1":
-                        if (language.contains("en")){
+                        if (Languges.contains("en")) {
                             typeOfOrder.setText("Gasoline 95");
-                        }else{typeOfOrder.setText("بنزين 95");}
+                        } else {
+                            typeOfOrder.setText("بنزين 95");
+                        }
                         break;
                     case "2":
-                        if (language.contains("en")){
+                        if (Languges.contains("en")) {
                             typeOfOrder.setText("Gasoline 91");
-                        }else{ typeOfOrder.setText("بنزين 91");}
+                        } else {
+                            typeOfOrder.setText("بنزين 91");
+                        }
                         break;
                     case "3":
-                        if (language.contains("en")){
+                        if (Languges.contains("en")) {
                             typeOfOrder.setText("diesel");
-                        }else{ typeOfOrder.setText("ديزل");}
+                        } else {
+                            typeOfOrder.setText("ديزل");
+                        }
                         break;
                     case "4":
-                        if (language.contains("en")){
+                        if (Languges.contains("en")) {
                             typeOfOrder.setText("Crude Oil");
-                        }else{ typeOfOrder.setText("زيت خام");}
+                        } else {
+                            typeOfOrder.setText("زيت خام");
+                        }
                         break;
                     case "5":
-                        if (language.contains("en")){
+                        if (Languges.contains("en")) {
                             typeOfOrder.setText("Kerosene");
-                        }else{typeOfOrder.setText("كيروسين");}
+                        } else {
+                            typeOfOrder.setText("كيروسين");
+                        }
 
                         break;
                     default:
-                        if (language.contains("en")){
+                        if (Languges.contains("en")) {
                             typeOfOrder.setText("Gasoline 95");
-                        }else{ typeOfOrder.setText("بنزين 95");}
+                        } else {
+                            typeOfOrder.setText("بنزين 95");
+                        }
 
 
                 }
@@ -881,12 +938,94 @@ public class NewOrder extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     new UpdateAramcoTask().execute();
+                    dialog.dismiss();
 
                 }
             });
             dialog.show();
         }
 
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+
+    public static void forceLocale(Context ctx, Locale locale) {
+        Configuration conf = ctx.getResources().getConfiguration();
+        conf.locale = locale;
+        ctx.getResources().updateConfiguration(conf, ctx.getResources().getDisplayMetrics());
+
+        Configuration systemConf = Resources.getSystem().getConfiguration();
+        systemConf.locale = locale;
+        Resources.getSystem().updateConfiguration(systemConf, Resources.getSystem().getDisplayMetrics());
+
+        Locale.setDefault(locale);
+
+    }
+
+    class GetCurrentOrdersTask2 extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            try {
+
+                String METHOD_NAME = "getAramcoOrders2";
+                String NAMESPACE = "http://37.224.24.195";
+                String URL = "http://37.224.24.195/AndroidWS/GetInfo.asmx";
+                String SOAP_ACTION = "http://37.224.24.195/getAramcoOrders2";
+                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+                request.addProperty("VarAccNo", VarAccNo);
+                request.addProperty("VarDate", VarDate);
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL, 1000000000);
+                androidHttpTransport.debug = true;
+                androidHttpTransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                androidHttpTransport.call(SOAP_ACTION, envelope);
+                responseObject = (SoapObject) envelope.getResponse();
+                Integer x = 1;
+            } catch (SoapFault soapFault) {
+                soapFault.printStackTrace();
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            } catch (SocketTimeoutException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "Task Completed.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            ListView listView = (ListView) findViewById(R.id.list_newOrder_Reserved);
+            list = new ArrayList<HashMap<String, String>>();
+
+            ListViewAdapterOldOrders adapter = new ListViewAdapterOldOrders(NewOrder.this, list);
+            listView.setAdapter(adapter);
+
+            for (int i = 0; i < responseObject.getPropertyCount(); i++) {
+                String[] reponseArrayString = responseObject.getProperty(i).toString().split("&&");
+                HashMap<String, String> temp = new HashMap<String, String>();
+                int count = reponseArrayString.length;
+                temp.put(LT_FIRST_COLUMN, reponseArrayString[0]);
+                temp.put(LT_SECOND_COLUMN, GetItemName(Integer.parseInt(reponseArrayString[2])));
+                temp.put(LT_THIRD_COLUMN, reponseArrayString[7]);
+                temp.put(LT_FOURTH_COLUMN, reponseArrayString[4]);
+                list.add(temp);
+            }
+            adapter = new ListViewAdapterOldOrders(NewOrder.this, list);
+            listView.setAdapter(adapter);
+        }
 
         @Override
         protected void onPreExecute() {

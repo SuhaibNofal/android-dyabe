@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -78,6 +79,21 @@ public class RatingReport extends AppCompatActivity {
     String VarIsQtyNotGood = "0";
     String VarIsItemNotGood = "0";
     String VarRate = "0";
+    String languges = "";
+
+    @Override
+    protected void onDestroy() {
+        Locale locale = new Locale(languges);
+        forceLocale(this, locale);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        Locale locale = new Locale(languges);
+        forceLocale(this, locale);
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +102,9 @@ public class RatingReport extends AppCompatActivity {
 
         new GetAllCustomerTask().execute();
         Intent intent = getIntent();
-        String languges = intent.getStringExtra("lang");
-        Locale locale =new Locale(languges);
-        forceLocale(this,locale);
+        languges = intent.getStringExtra("lang");
+        Locale locale = new Locale(languges);
+        forceLocale(this, locale);
         Spinner ddlAllCustomers = (Spinner) findViewById(R.id.spCustomers);
         ddlAllCustomers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -144,6 +160,8 @@ public class RatingReport extends AppCompatActivity {
 
         varFromDate = fromDateEtxt.getText().toString();
         varToDate = toDateEtxt.getText().toString();
+        Locale locale = new Locale(languges);
+        forceLocale(this, locale);
     }
 
     private void findViewsById() {
@@ -177,6 +195,13 @@ public class RatingReport extends AppCompatActivity {
     }
 
     public void callDate(View view) {
+        String languageToLoad = "EN-US";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
         if (view == fromDateEtxt) {
             fromDatePickerDialog.show();
         } else if (view == toDateEtxt) {
@@ -185,24 +210,52 @@ public class RatingReport extends AppCompatActivity {
     }
 
     public void SearchOrders(View v) {
-        final CheckBox chkLate = (CheckBox) findViewById(R.id.chkGetLate);
-        final CheckBox chkQtyNotGood = (CheckBox) findViewById(R.id.chkGetNotGoodQty);
-        final CheckBox chkItemNotGood = (CheckBox) findViewById(R.id.chkGetNotGoodItem);
-        if (chkLate.isChecked()) {
-            VarIsLate = "1";
-        } else {
-            VarIsLate = "0";
-        }
-        if (chkQtyNotGood.isChecked()) {
-            VarIsQtyNotGood = "1";
-        } else {
-            VarIsQtyNotGood = "0";
-        }
-        if (chkItemNotGood.isChecked()) {
-            VarIsItemNotGood = "1";
-        } else {
-            VarIsItemNotGood = "0";
-        }
+        RadioGroup Access_radioGroup = (RadioGroup) findViewById(R.id.Access_radio_group);
+        RadioGroup dealing_radioGroup = (RadioGroup) findViewById(R.id.dealing_radio_group);
+        RadioGroup view_radiogroup = (RadioGroup) findViewById(R.id.View_radio_group);
+        Access_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.late:
+                        VarIsItemNotGood = "3";
+                        break;
+                    case R.id.latesome:
+                        VarIsItemNotGood = "2";
+                        break;
+                    default:
+                        VarIsItemNotGood = "1";
+                }
+            }
+        });
+        dealing_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.dealing_goodMiddel:
+                        VarIsQtyNotGood = "2";
+                        break;
+                    case R.id.dealing_not_good:
+                        VarIsQtyNotGood = "3";
+                        break;
+                    default:
+                        VarIsQtyNotGood = "1";
+                }
+            }
+        });
+        view_radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.view_not_good:
+                        VarIsLate = "2";
+                        break;
+                    default:
+                        VarIsLate = "1";
+
+                }
+            }
+        });
         RatingBar simpleRatingBar = (RatingBar) findViewById(R.id.repRatingBar);
         VarRate = String.valueOf(Math.round(simpleRatingBar.getRating()));
         ImageView imgCurrentSearch = (ImageView) findViewById(R.id.imgCurrentSearch);
@@ -215,8 +268,11 @@ public class RatingReport extends AppCompatActivity {
         final String[] cuurentValues = btn.getTag().toString().split(",&,");
 
         final Dialog dialog = new Dialog(RatingReport.this);
-
-        dialog.setTitle("معلومات");
+        if (languges.contains("en")) {
+            dialog.setTitle("Information");
+        } else {
+            dialog.setTitle("معلومات");
+        }
 
 
         Rect displayRectangle = new Rect();
@@ -236,39 +292,60 @@ public class RatingReport extends AppCompatActivity {
         Locale locale = Locale.getDefault();
         String language = String.valueOf(locale);
         if (language.contains("en")) {
-            if (cuurentValues[1].equals("True")) {
-                txtDLate.setText("True");
+            if (cuurentValues[1].equals("1")) {
+                txtDLate.setText("seemly");
             } else {
-                txtDLate.setText("False");
+                txtDLate.setText("unseemly");
             }
-            if (cuurentValues[2].equals("True")) {
-                txtDQNG.setText("True");
+            if (cuurentValues[2].equals("1")) {
+                txtDQNG.setText("seemly");
+            } else if (cuurentValues[2].equals("2")) {
+                txtDQNG.setText("fine");
             } else {
-                txtDQNG.setText("False");
+                txtDQNG.setText("unseemly");
             }
-            if (cuurentValues[3].equals("True")) {
-                txtDING.setText("True");
+            if (cuurentValues[3].equals("1")) {
+                txtDING.setText("on time");
+            } else if (cuurentValues[3].equals("2")) {
+                txtDING.setText("Delayed slightly");
             } else {
-                txtDING.setText("False");
+                txtDING.setText("too late");
             }
         } else {
-            if (cuurentValues[1].equals("True")) {
-                txtDLate.setText("نعم");
+            if (cuurentValues[1].equals("1")) {
+                txtDLate.setText("لائق");
             } else {
-                txtDLate.setText("لا");
+                txtDLate.setText("غير لائق");
             }
-            if (cuurentValues[2].equals("True")) {
-                txtDQNG.setText("نعم");
+            if (cuurentValues[2].equals("1")) {
+                txtDQNG.setText("لائق");
+            } else if (cuurentValues[2].equals("2")) {
+                txtDQNG.setText("جيد");
             } else {
-                txtDQNG.setText("لا");
+                txtDQNG.setText("غير لائق");
             }
-            if (cuurentValues[3].equals("True")) {
-                txtDING.setText("نعم");
+            if (cuurentValues[3].equals("1")) {
+                txtDING.setText("في الوقت المحدد");
+            } else if (cuurentValues[3].equals("2")) {
+                txtDING.setText("تاخر قليلا");
             } else {
-                txtDING.setText("لا");
+                txtDING.setText("تاخر كثيرا");
             }
+
         }
         dialog.show();
+    }
+
+    public void deleteSearsh(View view) {
+        RadioGroup Access_radioGroup = (RadioGroup) findViewById(R.id.Access_radio_group);
+        RadioGroup dealing_radioGroup = (RadioGroup) findViewById(R.id.dealing_radio_group);
+        RadioGroup view_radiogroup = (RadioGroup) findViewById(R.id.View_radio_group);
+        Access_radioGroup.clearCheck();
+        dealing_radioGroup.clearCheck();
+        view_radiogroup.clearCheck();
+        VarIsLate = "0";
+        VarIsQtyNotGood = "0";
+        VarIsItemNotGood = "0";
     }
 
     class GetAllCustomerTask extends AsyncTask<Integer, Integer, String> {

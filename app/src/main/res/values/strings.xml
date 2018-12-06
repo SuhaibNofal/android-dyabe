@@ -105,26 +105,25 @@ info@awaelksa.com\n</string>
     <string name="find_by_name">Find by name </string>
 
 
-
     //main activity translate Driver
-    <string name = "driver_name">Driver Name</string>
-    <string name = "Functional_number">Functional number</string>
-    <string name = "the_car">the car</string>
-    <string name = "Orders_available">Orders available</string>
-    <string name = "Order_number">Order number</string>
-    <string name = "customer_name">Customer name</string>
-    <string name = "Customer_location">Customer location</string>
+    <string name="driver_name">Driver Name</string>
+    <string name="Functional_number">Functional number</string>
+    <string name="the_car">the car</string>
+    <string name="Orders_available">Orders available</string>
+    <string name="Order_number">Order number</string>
+    <string name="customer_name">Customer name</string>
+    <string name="Customer_location">Customer location</string>
     <string name="update">Update</string>
 
     //main activity translate Customer
-    <string name = "balance">Balance</string>
-    <string name = "date_of_account_creation">Date of account creation</string>
-    <string name = "sٍection">Section</string>
-    <string name = "start_balance">Start_balance</string>
-    <string name = "confirm_access">Confirm access</string>
-    <string name = "track_order">Track order</string>
-    <string name = "new_order">New order</string>
-    <string name = "bill">bill</string>
+    <string name="balance">Balance</string>
+    <string name="date_of_account_creation">Date of account creation</string>
+    <string name="sٍection">Section</string>
+    <string name="start_balance">Start_balance</string>
+    <string name="confirm_access">Confirm access</string>
+    <string name="track_order">Track order</string>
+    <string name="new_order">New order</string>
+    <string name="bill">bill</string>
 
     //translate activity_daily_transaction
     <string name="from_date">From Date </string>
@@ -176,7 +175,7 @@ info@awaelksa.com\n</string>
     //translate activity_send_sms
     <string name="send">Send</string>
     <string name="please_enter_the_message">Please enter the message</string>
-    
+
     //translate activity_new_order
     <string name="txt_new_order">New Order</string>
     <string name="subject">Subject</string>
@@ -235,8 +234,26 @@ info@awaelksa.com\n</string>
     <string name="ratings_report_menu">Rating Report</string>
     <string name="daily_responses_report_menu">Daily responses report</string>
     <string name="important_sites_menu">Important sites</string>
-<string name="go_to_google">Go TO Google</string>
+    <string name="go_to_google">Go TO Google</string>
     <string name="start">Start</string>
 
     <string name="enter">Enter</string>
+    //translate activity_account_sub_customer
+
+    <string name="Balance_Transferred_To_Accounting">Balance Transferred To Accounting</string>
+    <string name="Closed_Work_Orders">Closed Work Orders</string>
+    <string name="Work_orders">Work orders</string>
+    <string name="End_Balance">End Balance</string>
+    <string name="the_details">The details</string>
+    <string name="Balance_Transferred">Balance Transferred</string>
+
+    //translate colsed_order_work
+    <string name="station_name">Station name</string>
+
+
+    //translate drawinsin
+    <string name="save">Save</string>
+    <string name="close">close</string>
+    <string name="drawin">You have received the full order as requested </string>
+
 </resources>
